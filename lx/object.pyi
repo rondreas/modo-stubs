@@ -1,40 +1,43 @@
 """ lx.object stubs """
 
 
+from typing import Tuple
+
+
 class ActionClip(object):
     def __init__(self, *args, **kwargs):
         ...
 
     def Action(self, time: float):
-        """ChannelRead object = Action(float time)"""
+        """ ChannelRead object = Action(float time)"""
         ...
 
-    def Active(self):
-        """integer = Active()"""
+    def Active(self) -> int:
+        """ integer = Active()"""
         ...
 
     def Create(self):
-        """Create()"""
+        """ Create()"""
         ...
 
     def Enabled(self):
-        """integer = Enabled()"""
+        """ integer = Enabled()"""
         ...
 
-    def Extents(self, layers):
+    def Extents(self, layers: int) -> Tuple[float, float]:
         """ (float timeS,float timeE) = Extents(integer layers)"""
         ...
 
-    def SetActive(self, state):
-        """SetActive(integer state)"""
+    def SetActive(self, state: int):
+        """ SetActive(integer state)"""
         ...
 
-    def SetEnabled(self, state):
-        """SetEnabled(integer state)"""
+    def SetEnabled(self, state: int):
+        """ SetEnabled(integer state)"""
         ...
 
-    def SetParenting(self, group):
-        """SetParenting(object group)"""
+    def SetParenting(self, group: object):
+        """ SetParenting(object group)"""
         ...
 
     def set(self, source: object) -> bool:
