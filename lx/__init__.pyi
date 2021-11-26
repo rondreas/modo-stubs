@@ -10,6 +10,9 @@ from . import symbol
 
 
 class Monitor(object):
+    def __init__(self, count: Optional[int]):
+        ...
+
     def init(self, count: int):
         """Initialize the monitor with the total number of steps"""
         ...
