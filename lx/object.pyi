@@ -4,13 +4,12 @@
 from typing import Tuple
 
 
-# type hint for 4x4 matrices
-Matrix4 = tuple[
-    tuple[float, float, float, float],
-    tuple[float, float, float, float],
-    tuple[float, float, float, float], 
-    tuple[float, float, float, float], 
-]
+# Type hints for matrices and static length tuples of floats.
+Float3 = tuple[float, float, float]
+Float4 = tuple[float, float, float, float]
+
+Matrix3 = tuple[Float3, Float3, Float3]
+Matrix4 = tuple[Float4, Float4, Float4, Float4]
 
 
 class ActionClip(object):
@@ -1379,7 +1378,7 @@ class ChannelRead(object)(object):
         """string typeName = TypeName(object item,integer channel)"""
         ...
 
-    def ValueObj(self, item, channel):
+    def ValueObj(self, item: Item, channel: int):
         """Unknown object = ValueObj(object item,integer channel)"""
         ...
 
