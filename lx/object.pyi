@@ -5915,175 +5915,176 @@ class Item(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def BaseName(self):
+    def BaseName(self) -> str:
         """string name = BaseName()"""
         ...
 
-    def ChannelAdd(self):
+    def ChannelAdd(self) -> Unknown:
         """Unknown object = ChannelAdd()"""
         ...
 
-    def ChannelCount(self):
+    def ChannelCount(self) -> int:
         """integer count = ChannelCount()"""
         ...
 
-    def ChannelEvalType(self, index):
+    def ChannelEvalType(self, index: int) -> str:
         """string type = ChannelEvalType(integer index)"""
         ...
 
-    def ChannelGradient(self, index):
+    def ChannelGradient(self, index: int) -> tuple[str, str]:
         """(string input,string output) = ChannelGradient(integer index)"""
         ...
 
-    def ChannelIntHint(self, index):
+    # TODO: Find the return type
+    def ChannelIntHint(self, index: int):
         """hints hints = ChannelIntHint(integer index)"""
         ...
 
-    def ChannelIsDriven(self, index):
+    def ChannelIsDriven(self, index: int) -> bool:
         """boolean = ChannelIsDriven(integer index)"""
         ...
 
-    def ChannelLookup(self, name):
+    def ChannelLookup(self, name: str) -> int:
         """integer index = ChannelLookup(string name)"""
         ...
 
-    def ChannelName(self, index):
+    def ChannelName(self, index: int) -> str:
         """string name = ChannelName(integer index)"""
         ...
 
-    def ChannelPackage(self, index):
+    def ChannelPackage(self, index: int) -> str:
         """string package = ChannelPackage(integer index)"""
         ...
 
-    def ChannelStorageType(self, index):
+    def ChannelStorageType(self, index: int) -> str:
         """string type = ChannelStorageType(integer index)"""
         ...
 
-    def ChannelType(self, index):
+    def ChannelType(self, index: int) -> int:
         """integer type = ChannelType(integer index)"""
         ...
 
-    def ChannelVectorMode(self, index):
+    def ChannelVectorMode(self, index: int) -> tuple[int, int]:
         """(integer mode,integer components) = ChannelVectorMode(integer index)"""
         ...
 
-    def Context(self):
+    def Context(self) -> Scene:
         """Scene object = Context()"""
         ...
 
-    def Delete(self):
+    def Delete(self) -> None:
         """Delete()"""
         ...
 
-    def GetTag(self, type):
+    def GetTag(self, type: int) -> str:
         """string = GetTag(integer type)"""
         ...
 
-    def Ident(self):
+    def Ident(self) -> str:
         """string ident = Ident()"""
         ...
 
-    def InvalidateName(self):
+    def InvalidateName(self) -> None:
         """InvalidateName()"""
         ...
 
-    def IsReferenced(self):
+    def IsReferenced(self) -> bool:
         """boolean = IsReferenced()"""
         ...
 
-    def Name(self):
+    def Name(self) -> str:
         """string name = Name()"""
         ...
 
-    def PackageAdd(self, package):
+    def PackageAdd(self, package: str) -> None:
         """PackageAdd(string package)"""
         ...
 
-    def PackageRemove(self, package):
+    def PackageRemove(self, package: str) -> None:
         """PackageRemove(string package)"""
         ...
 
-    def PackageStartIndex(self, package):
+    def PackageStartIndex(self, package: str) -> int:
         """integer index = PackageStartIndex(string package)"""
         ...
 
-    def PackageTest(self, package):
+    def PackageTest(self, package: str) -> bool:
         """boolean = PackageTest(string package)"""
         ...
 
-    def Parent(self):
+    def Parent(self) -> Item:
         """Item object = Parent()"""
         ...
 
-    def Reference(self):
+    def Reference(self) -> Item:
         """Item object = Reference()"""
         ...
 
-    def Root(self):
+    def Root(self) -> Item:
         """Item object = Root()"""
         ...
 
-    def SetIdent(self, ident):
+    def SetIdent(self, ident: str) -> None:
         """SetIdent(string ident)"""
         ...
 
-    def SetName(self, name):
+    def SetName(self, name: str) -> None:
         """SetName(string name)"""
         ...
 
-    def SetParent(self, parent):
+    def SetParent(self, parent: Item) -> None:
         """SetParent(object parent)"""
         ...
 
-    def SetParentAndPosition(self, parent, pos):
+    def SetParentAndPosition(self, parent: Item, pos: int) -> None:
         """SetParentAndPosition(object parent,integer pos)"""
         ...
 
-    def SetSource(self, source):
+    def SetSource(self, source: Item) -> None:
         """SetSource(object source)"""
         ...
 
-    def SetTag(self, type, tag):
+    def SetTag(self, type: int, tag: str) -> None:
         """SetTag(integer type,string tag)"""
         ...
 
-    def SetUniqueIndex(self, index):
+    def SetUniqueIndex(self, index: int) -> None:
         """SetUniqueIndex(integer index)"""
         ...
 
-    def Source(self):
+    def Source(self) -> Item:
         """Item object = Source()"""
         ...
 
-    def SubByIndex(self, index):
+    def SubByIndex(self, index: int) -> Item:
         """Item object = SubByIndex(integer index)"""
         ...
 
-    def SubCount(self):
+    def SubCount(self) -> int:
         """integer count = SubCount()"""
         ...
 
-    def TestType(self, type):
+    def TestType(self, type: int) -> bool:
         """boolean = TestType(integer type)"""
         ...
 
-    def TestTypes(self, types):
+    def TestTypes(self, types: list[int, ...]) -> bool:
         """boolean = TestTypes(int[] types)"""
         ...
 
-    def Type(self):
+    def Type(self) -> int:
         """integer = Type()"""
         ...
 
-    def UniqueIndex(self):
+    def UniqueIndex(self) -> int:
         """integer index = UniqueIndex()"""
         ...
 
-    def UniqueName(self):
+    def UniqueName(self) -> str:
         """string name = UniqueName()"""
         ...
 
-    def WasLoaded(self, test):
+    def WasLoaded(self, test: int) -> bool:
         """boolean = WasLoaded(integer test)"""
         ...
 
