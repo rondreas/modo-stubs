@@ -1326,59 +1326,59 @@ class ChannelPacketTranslation(object):
 
 
 
-class ChannelRead(object)(object):
+class ChannelRead(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def BakedSamples(self, item, channel):
+    def BakedSamples(self, item: Object, channel: int) -> tuple[float, float, ValueArray]:
         """(float firstSample,float spsRate,ValueArray object) = BakedSamples(object item,integer channel)"""
         ...
 
-    def Double(self, item, channel):
+    def Double(self, item: Object, channel: int) -> float:
         """float value = Double(object item,integer channel)"""
         ...
 
-    def EncodedInt(self, item, channel):
+    def EncodedInt(self, item: Object, channel: int) -> str:
         """string = EncodedInt(object item,integer channel)"""
         ...
 
-    def Envelope(self, item, channel):
+    def Envelope(self, item: Object, channel: int) -> Envelope:
         """Envelope object = Envelope(object item,integer channel)"""
         ...
 
-    def Integer(self, item, channel):
+    def Integer(self, item: Object, channel: int) -> int:
         """integer value = Integer(object item,integer channel)"""
         ...
 
-    def IsAnimated(self, item, index):
+    def IsAnimated(self, item: Object, index: int) -> int:
         """integer = IsAnimated(object item,integer index)"""
         ...
 
-    def IsBaked(self, item, channel):
+    def IsBaked(self, item: Object, channel: int) -> bool:
         """boolean = IsBaked(object item,integer channel)"""
         ...
 
-    def SetTime(self, time):
+    def SetTime(self, time: float) -> None:
         """SetTime(float time)"""
         ...
 
-    def String(self, item, channel):
+    def String(self, item: Object, channel: int) -> str:
         """string value = String(object item,integer channel)"""
         ...
 
-    def Time(self):
+    def Time(self) -> float:
         """float = Time()"""
         ...
 
-    def Type(self, item, channel):
+    def Type(self, item: Object, channel: int) -> int:
         """integer type = Type(object item,integer channel)"""
         ...
 
-    def TypeName(self, item, channel):
+    def TypeName(self, item: Object, channel: int) -> str:
         """string typeName = TypeName(object item,integer channel)"""
         ...
 
-    def ValueObj(self, item: Item, channel: int):
+    def ValueObj(self, item: Object, channel: int) -> Unknown:
         """Unknown object = ValueObj(object item,integer channel)"""
         ...
 
