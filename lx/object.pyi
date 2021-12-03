@@ -6,10 +6,10 @@ from typing import Tuple
 
 # type hint for 4x4 matrices
 Matrix4 = tuple[
-        tuple[float, float, float, float],
-        tuple[float, float, float, float],
-        tuple[float, float, float, float], 
-        tuple[float, float, float, float], 
+    tuple[float, float, float, float],
+    tuple[float, float, float, float],
+    tuple[float, float, float, float], 
+    tuple[float, float, float, float], 
 ]
 
 
