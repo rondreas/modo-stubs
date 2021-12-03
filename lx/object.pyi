@@ -6445,50 +6445,63 @@ class Kit(object):
 
 
 class LayerScan(object):
+    """ The LayerScan interface is the main way to do mesh edits. It can also be
+    used in a non-edit mode to confirm what will happen when editing. 
+
+    """
     def __init__(self, *args, **kwargs):
         ...
 
-    def Apply(self):
+    def Apply(self) -> None:
         """Apply()"""
         ...
 
-    def Count(self):
+    def Count(self) -> int:
         """integer count = Count()"""
         ...
 
-    def GetState(self, index):
-        """integer state = GetState(integer index)"""
+    def GetState(self, index: int) -> int:
+        """ Query the state of a given layer. The state is a combination of the
+        ACTIVE, BACKGROUND or PRIMARY layer scan flags.
+
+        integer state = GetState(integer index)
+
+        """
         ...
 
-    def MeshAction(self, index):
+    def MeshAction(self, index: int) -> ChannelRead:
         """ChannelRead object = MeshAction(integer index)"""
         ...
 
-    def MeshBase(self, index):
+    def MeshBase(self, index: int) -> Mesh:
         """Mesh object = MeshBase(integer index)"""
         ...
 
-    def MeshEdit(self, index):
+    def MeshEdit(self, index: int) -> Mesh:
         """Mesh object = MeshEdit(integer index)"""
         ...
 
-    def MeshInstance(self, index):
+    def MeshInstance(self, index: int) -> Mesh:
         """Mesh object = MeshInstance(integer index)"""
         ...
 
-    def MeshItem(self, index):
+    def MeshItem(self, index: int) -> Item:
         """Item object = MeshItem(integer index)"""
         ...
 
-    def MeshTransform(self, index):
-        """matrix matrix = MeshTransform(integer index)"""
+    def MeshTransform(self, index: int) -> tuple:
+        """ returns a Matrix4 representing the world transform of the mesh item. 
+
+        matrix matrix = MeshTransform(integer index)
+
+        """
         ...
 
-    def SetMeshChange(self, index, edits):
+    def SetMeshChange(self, index: int, edits: int) -> None:
         """SetMeshChange(integer index,integer edits)"""
         ...
 
-    def Update(self):
+    def Update(self) -> None:
         """Update()"""
         ...
 
