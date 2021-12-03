@@ -2,6 +2,8 @@
  MODO Build #654077
 """
 
+from . import object
+
 class AudioAnim(object):
     def Audio(self):
         """Audio object = Audio()"""
@@ -1342,7 +1344,7 @@ class Layer(object):
         """float pivot = Pivot(integer index)"""
         ...
 
-    def ScanAllocate(self, flags):
+    def ScanAllocate(self, flags: int) -> object.LayerScan:
         """LayerScan object = ScanAllocate(integer flags)"""
         ...
 
