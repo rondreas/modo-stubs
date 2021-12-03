@@ -4,6 +4,15 @@
 from typing import Tuple
 
 
+# type hint for 4x4 matrices
+Matrix4 = tuple[
+        tuple[float, float, float, float],
+        tuple[float, float, float, float],
+        tuple[float, float, float, float], 
+        tuple[float, float, float, float], 
+]
+
+
 class ActionClip(object):
     def __init__(self, *args, **kwargs):
         ...
@@ -6443,7 +6452,6 @@ class Kit(object):
         ...
 
 
-
 class LayerScan(object):
     """ The LayerScan interface is the main way to do mesh edits. It can also be
     used in a non-edit mode to confirm what will happen when editing. 
@@ -6489,7 +6497,7 @@ class LayerScan(object):
         """Item object = MeshItem(integer index)"""
         ...
 
-    def MeshTransform(self, index: int) -> tuple:
+    def MeshTransform(self, index: int) -> Matrix4:
         """ returns a Matrix4 representing the world transform of the mesh item. 
 
         matrix matrix = MeshTransform(integer index)
