@@ -5,10 +5,10 @@ from typing import Tuple
 
 
 # Type hints for matrices and static length tuples of floats.
-Float3 = tuple[float, float, float]
+vector = tuple[float, float, float]
 Float4 = tuple[float, float, float, float]
 
-Matrix3 = tuple[Float3, Float3, Float3]
+Matrix3 = tuple[vector, vector, vector]
 Matrix4 = tuple[Float4, Float4, Float4, Float4]
 
 
@@ -6855,8 +6855,21 @@ class Locator(object):
         """matrix m3 = ExtractLocalRotation(object chanRead)"""
         ...
 
-    def GetTransformItem(self, type):
-        """Item object = GetTransformItem(integer type)"""
+    def GetTransformItem(self, type: int) -> Item:
+        """ Get the transform item, valid lx.symbols are
+
+            iXFRM_PIVOT
+            iXFRM_SCALE
+            iXFRM_SHEAR
+            iXFRM_PIVOT_C
+            iXFRM_PIVOT_ROT
+            iXFRM_PIVOT_ROT_C
+            iXFRM_POSITION
+            iXFRM_ROTATION
+
+        Item object = GetTransformItem(integer type)
+
+        """
         ...
 
     def LocalTransform(self, chanRead):
@@ -8886,87 +8899,87 @@ class Point(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def ClearMapValue(self, map):
+    def ClearMapValue(self, map: int) -> None:
         """ClearMapValue(id map)"""
         ...
 
-    def Copy(self):
+    def Copy(self) -> int:
         """id pointID = Copy()"""
         ...
 
-    def Corner(self):
+    def Corner(self) -> vector:
         """vector pos = Corner()"""
         ...
 
-    def EdgeByIndex(self, index):
+    def EdgeByIndex(self, index: int) -> int:
         """id edgeID = EdgeByIndex(integer index)"""
         ...
 
-    def EdgeCount(self):
+    def EdgeCount(self) -> int:
         """integer count = EdgeCount()"""
         ...
 
-    def Enumerate(self, mode, visitor, monitor):
+    def Enumerate(self, mode: int, visitor: Object, monitor: Object):
         """Enumerate(integer mode,object visitor,object monitor)"""
         ...
 
-    def ID(self):
+    def ID(self) -> int:
         """id = ID()"""
         ...
 
-    def Index(self):
+    def Index(self) -> int:
         """integer index = Index()"""
         ...
 
-    def MapEvaluate(self, map, value):
+    def MapEvaluate(self, map: int, value: storage):
         """boolean = MapEvaluate(id map,float[] value)"""
         ...
 
-    def MapValue(self, map, value):
+    def MapValue(self, map: int, value: storage):
         """boolean = MapValue(id map,float[] value)"""
         ...
 
-    def Mesh(self):
+    def Mesh(self) -> Unknown:
         """Unknown object = Mesh()"""
         ...
 
-    def New(self, pos):
+    def New(self, pos: vector) -> int:
         """id pointID = New(vector pos)"""
         ...
 
-    def NewOnEdge(self, A, B, percent):
+    def NewOnEdge(self, A: int, B: int, percent: float) -> int:
         """id newPoint = NewOnEdge(id A,id B,float percent)"""
         ...
 
-    def Normal(self, pol):
-        """vector normal = Normal(id pol)"""
+    def Normal(self, polygon: int) -> vector:
+        """vector normal = Normal(id polygon)"""
         ...
 
     def OnSymmetryCenter(self):
         """OnSymmetryCenter()"""
         ...
 
-    def Part(self):
+    def Part(self) -> int:
         """integer part = Part()"""
         ...
 
-    def PointByIndex(self, index):
+    def PointByIndex(self, index: int) -> int:
         """id pointID = PointByIndex(integer index)"""
         ...
 
-    def PointCount(self):
+    def PointCount(self) -> int:
         """integer count = PointCount()"""
         ...
 
-    def PolygonByIndex(self, index):
+    def PolygonByIndex(self, index: int) -> int:
         """id polygonID = PolygonByIndex(integer index)"""
         ...
 
-    def PolygonCount(self):
+    def PolygonCount(self) -> int:
         """integer count = PolygonCount()"""
         ...
 
-    def Pos(self):
+    def Pos(self) -> vector:
         """vector pos = Pos()"""
         ...
 
@@ -8974,15 +8987,15 @@ class Point(object):
         """Remove()"""
         ...
 
-    def Select(self, point):
+    def Select(self, point: int):
         """Select(id point)"""
         ...
 
-    def SelectByIndex(self, index):
+    def SelectByIndex(self, index: int):
         """SelectByIndex(integer index)"""
         ...
 
-    def SelectPolygonVertex(self, polygon, index):
+    def SelectPolygonVertex(self, polygon: int, index: int):
         """SelectPolygonVertex(id polygon,integer index)"""
         ...
 
@@ -8990,23 +9003,23 @@ class Point(object):
         """SetMapValue(id map,float[] value)"""
         ...
 
-    def SetMarks(self, set):
+    def SetMarks(self, set: int):
         """SetMarks(integer set)"""
         ...
 
-    def SetPos(self, pos):
+    def SetPos(self, pos: vector):
         """SetPos(vector pos)"""
         ...
 
-    def Spawn(self):
+    def Spawn(self) -> Point:
         """Point object = Spawn()"""
         ...
 
-    def Symmetry(self):
+    def Symmetry(self) -> int:
         """id pointID = Symmetry()"""
         ...
 
-    def TestMarks(self, mode):
+    def TestMarks(self, mode: int) -> bool:
         """boolean = TestMarks(integer mode)"""
         ...
 
