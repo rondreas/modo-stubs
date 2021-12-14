@@ -1192,15 +1192,15 @@ class Interviewer(object):
 
 
 class Layer(object):
-    def Bounds(self, index):
+    def Bounds(self, index: int) -> tuple[object.vector, object.vector]:
         """(vector min,vector max) = Bounds(integer index)"""
         ...
 
-    def ClearMark(self, item):
+    def ClearMark(self, item: object.Unknown) -> None:
         """ClearMark(object item)"""
         ...
 
-    def Count(self):
+    def Count(self) -> int:
         """integer count = Count()"""
         ...
 
@@ -1224,7 +1224,7 @@ class Layer(object):
         """IsProcedural(integer index)"""
         ...
 
-    def Item(self, index):
+    def Item(self, index: int) -> object.Item:
         """Item object = Item(integer index)"""
         ...
 
@@ -1252,7 +1252,7 @@ class Layer(object):
         """Unknown object = LayerEdge(integer mode,integer index)"""
         ...
 
-    def LayerEdgeCount(self, mode):
+    def LayerEdgeCount(self, mode: int) -> int:
         """integer num = LayerEdgeCount(integer mode)"""
         ...
 
@@ -1280,11 +1280,11 @@ class Layer(object):
         """Unknown object = LayerPoly(integer mode,integer index)"""
         ...
 
-    def LayerPolyCount(self, mode):
+    def LayerPolyCount(self, mode: int) -> int:
         """integer num = LayerPolyCount(integer mode)"""
         ...
 
-    def LayerSelSet(self, type, index):
+    def LayerSelSet(self, type: int, index: int) -> str:
         """string selSet = LayerSelSet(integer type,integer index)"""
         ...
 
@@ -2746,65 +2746,74 @@ class VertexFeature(object):
 
 
 class View3Dport(object):
-    def AddVirtualModel(self, vmodel):
+    def AddVirtualModel(self, vmodel: object.Unknown) -> None:
         """AddVirtualModel(object vmodel)"""
         ...
 
-    def AllocGLViewport(self):
+    def AllocGLViewport(self) -> object.Unknown:
         """Unknown object = AllocGLViewport()"""
         ...
 
-    def Count(self):
+    def Count(self) -> int:
         """integer = Count()"""
         ...
 
-    def Current(self):
+    def Current(self) -> int:
         """integer = Current()"""
         ...
 
-    def GLMaterial(self, bin, item, view):
+    def GLMaterial(self, bin: object.Unknown, item: object.Unknown, view: object.Unknown) -> object.Unknown:
         """Unknown object = GLMaterial(object bin,object item,object view)"""
         ...
 
-    def ImageToGLImage(self, image):
+    def ImageToGLImage(self, image: object.Unknown) -> object.Unknown:
         """Unknown object = ImageToGLImage(object image)"""
         ...
 
-    def InvalidateOverrider(self, scene, pkgName):
+    def InvalidateOverrider(self, scene: object.Unknown, pkgName: str):
         """integer = InvalidateOverrider(object scene,string pkgName)"""
         ...
 
-    def Mouse(self):
+    def Mouse(self) -> tuple[int, int]:
         """(integer,integer x,integer y) = Mouse()"""
         ...
 
-    def RemoveVirtualModel(self, vmodel):
+    def RemoveVirtualModel(self, vmodel: object.Unknown) -> None:
         """RemoveVirtualModel(object vmodel)"""
         ...
 
-    def ScriptQuery(self):
+    def ScriptQuery(self) -> object.Unknown:
         """Unknown object = ScriptQuery()"""
         ...
 
-    def SetHitUVMap(self, name):
+    def SetHitUVMap(self, name: str):
         """SetHitUVMap(string name)"""
         ...
 
-    def SurfaceToViewObject(self, type, item):
+    def SurfaceToViewObject(self, type: int, item: object.Unknown) -> object.Unknown:
         """Unknown object = SurfaceToViewObject(integer type,object item)"""
         ...
 
-    def TriGroupToViewObject(self, type, triGroup):
+    def TriGroupToViewObject(self, type: int, triGroup: object.Unknown) -> object.Unknown:
         """Unknown object = TriGroupToViewObject(integer type,object triGroup)"""
         ...
 
-    def UpdateVirtualModel(self, vmodel):
+    def UpdateVirtualModel(self, vmodel: object.Unknown):
         """UpdateVirtualModel(object vmodel)"""
         ...
 
-    def View(self, index):
-        """Unknown object = View(integer index)"""
+    def View(self, index: int) -> object.Unknown:
+        """ Get the View3D object at index.
+
+        >>> view_service = lx.service.View3Dport()
+        >>> view_index = view_service.Current()
+        >>> unknown = view_service.View(view_index)
+        >>> view = lx.object.View3D(unknown)
+        >>> view.test()
+        True
+
+        Unknown object = View(integer index)
+
+        """
         ...
-
-
 
