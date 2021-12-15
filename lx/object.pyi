@@ -2938,15 +2938,15 @@ class Edge(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def ClearMapValue(self, map):
+    def ClearMapValue(self, map: int):
         """ClearMapValue(id map)"""
         ...
 
-    def Endpoints(self):
+    def Endpoints(self) -> tuple[int, int]:
         """(id point0,id point1) = Endpoints()"""
         ...
 
-    def Enumerate(self, mode, visitor, monitor):
+    def Enumerate(self, mode: int, visitor: Unknown, monitor: Unknown):
         """Enumerate(integer mode,object visitor,object monitor)"""
         ...
 
@@ -8169,11 +8169,11 @@ class Monitor(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def Increment(self, count):
+    def Increment(self, count: int):
         """Increment(integer count)"""
         ...
 
-    def Initialize(self, count):
+    def Initialize(self, count: int):
         """Initialize(integer count)"""
         ...
 

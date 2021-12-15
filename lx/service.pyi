@@ -2523,7 +2523,7 @@ class StdDialog(object):
         """MessageOpen(object message,string title,string helpURL,string cookie)"""
         ...
 
-    def MonitorAllocate(self, title):
+    def MonitorAllocate(self, title: str) -> object.Monitor:
         """Monitor object = MonitorAllocate(string title)"""
         ...
 
@@ -2531,7 +2531,7 @@ class StdDialog(object):
         """MonitorRelease()"""
         ...
 
-    def MonitorReleaseObj(self, monitor):
+    def MonitorReleaseObj(self, monitor: object.Unknown) -> None:
         """MonitorReleaseObj(object monitor)"""
         ...
 
