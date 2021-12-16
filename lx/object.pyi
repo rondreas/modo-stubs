@@ -15458,35 +15458,65 @@ class VirtualModel(object):
         ...
 
     def Down(self, vts):
-        """Down(object vts)"""
+        """ This function is called on an initial mouse down.
+
+        Down(object vts)
+
+        """
         ...
 
-    def Draw(self, stroke):
-        """Draw(object stroke)"""
+    def Draw(self, stroke: Unknown):
+        """ Virtual Models can draw into graphic viewports with the Draw and
+        Test methods. Draw is called to update the stroked model in the view,
+        and Test is called when performing mouse rollover to define regions
+        for hit testing.
+
+        Draw(object stroke)
+
+        """
         ...
 
-    def Flags(self):
-        """integer = Flags()"""
+    def Flags(self) -> int:
+        """ The flags method determines various interactive behaviors for the
+        virtual model. These values should be a combination of LXfTMOD flags.
+        This value should not change.
+
+        integer = Flags()
+
+        """
         ...
 
     def Move(self, vts):
-        """Move(object vts)"""
+        """ This function is called repeatedly with updated position information
+        that tracks the mouse movement during raw input event processing.
+
+        Move(object vts)
+        
+        """
         ...
 
     def Test(self, stroke):
         """Test(object stroke)"""
         ...
 
-    def Tooltip(self, part):
+    def Tooltip(self, part: int) -> str:
         """string = Tooltip(integer part)"""
         ...
 
-    def Track(self, part):
-        """Track(integer part)"""
+    def Track(self, part: int):
+        """ This function allows clients to get the part number the mouse is over. 
+        If the mouse is not over a part, the part number is -1.
+
+        Track(integer part)"""
         ...
 
     def Up(self, vts):
-        """Up(object vts)"""
+        """ This function is called at the end of a user interaction, signified
+        by a release of the mouse button.
+
+        Up(object vts)
+
+        """
         ...
 
     def set(self, source: object) -> bool:
