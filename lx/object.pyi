@@ -15457,7 +15457,7 @@ class VirtualModel(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def Down(self, vts):
+    def Down(self, vts) -> None:
         """ This function is called on an initial mouse down.
 
         Down(object vts)
@@ -15465,7 +15465,7 @@ class VirtualModel(object):
         """
         ...
 
-    def Draw(self, stroke: Unknown):
+    def Draw(self, stroke: Unknown) -> None:
         """ Virtual Models can draw into graphic viewports with the Draw and
         Test methods. Draw is called to update the stroked model in the view,
         and Test is called when performing mouse rollover to define regions
@@ -15486,7 +15486,7 @@ class VirtualModel(object):
         """
         ...
 
-    def Move(self, vts):
+    def Move(self, vts: Unknown) -> None:
         """ This function is called repeatedly with updated position information
         that tracks the mouse movement during raw input event processing.
 
@@ -15495,22 +15495,27 @@ class VirtualModel(object):
         """
         ...
 
-    def Test(self, stroke):
-        """Test(object stroke)"""
+    def Test(self, stroke: Unknown) -> None:
+        """ Called when performing mouse rollover to define regions
+        for hit testing.
+
+        Test(object stroke)
+
+        """
         ...
 
     def Tooltip(self, part: int) -> str:
         """string = Tooltip(integer part)"""
         ...
 
-    def Track(self, part: int):
+    def Track(self, part: int) -> None:
         """ This function allows clients to get the part number the mouse is over. 
         If the mouse is not over a part, the part number is -1.
 
         Track(integer part)"""
         ...
 
-    def Up(self, vts):
+    def Up(self, vts: Unknown) -> None:
         """ This function is called at the end of a user interaction, signified
         by a release of the mouse button.
 
