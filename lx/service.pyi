@@ -1817,124 +1817,207 @@ class Persistence(object):
 
 
 class Platform(object):
-    def AppBuild(self):
-        """integer build = AppBuild()"""
+    def AppBuild(self) -> int:
+        """ Get the build number of the application.
+
+        integer build = AppBuild()"""
         ...
 
-    def AppName(self):
-        """string name = AppName()"""
+    def AppName(self) -> str:
+        """ Get the application name.
+
+        string name = AppName()"""
         ...
 
-    def AppUsername(self):
+    def AppUsername(self) -> str:
         """string name = AppUsername()"""
         ...
 
-    def AppVersion(self):
-        """integer version = AppVersion()"""
+    def AppVersion(self) -> int:
+        """ Get the version number of the application.
+
+        integer version = AppVersion()"""
         ...
 
-    def AppVersionMajor(self):
+    def AppVersionMajor(self) -> int:
         """integer version = AppVersionMajor()"""
         ...
 
-    def AppVersionMinor(self):
+    def AppVersionMinor(self) -> int:
         """integer version = AppVersionMinor()"""
         ...
 
-    def AppVersionSP(self):
+    def AppVersionSP(self) -> int:
         """integer version = AppVersionSP()"""
         ...
 
-    def CancelDoWhenUserIsIdle(self, visitor, flags):
-        """CancelDoWhenUserIsIdle(object visitor,integer flags)"""
+    def CancelDoWhenUserIsIdle(self, visitor: object.Unknown, flags: int):
+        """ This can be used to remove a pending user idle action.  It will do nothing if the
+        idle action isn't armed.  Note that flags and the visitor pointer must be exactly
+        the same as the one passed to DoWhenUserIsIdle(), or else it will not be found and
+        the action will remain armed.
+
+        .. Note::
+
+            that when doing this from Python, you must pass the exact same visitor COM object
+            (not Python object).  This is also necessary when removing listeners and canceling
+            timers, as discussed here: https://learn.foundry.com/modo/developers/latest/sdk/pages/faqs/PythonFAQs.html#how-do-i-remove-a-listener-object-in-python
+
+        CancelDoWhenUserIsIdle(object visitor,integer flags)"""
         ...
 
-    def DoWhenUserIsIdle(self, visitor, flags):
-        """DoWhenUserIsIdle(object visitor,integer flags)"""
+    def DoWhenUserIsIdle(self, visitor: object.Unknown, flags: int):
+        """ This arms a user idle action, preferably only once until it has been fired, after
+        which you can arm it again if necessary.
+
+        DoWhenUserIsIdle(object visitor,integer flags)"""
         ...
 
-    def ExpiresIn(self):
-        """integer daysLeft = ExpiresIn()"""
+    def ExpiresIn(self) -> int:
+        """ Get the number of days left until the key expires, or -1 if the key is
+        permanent.
+
+        integer daysLeft = ExpiresIn()"""
         ...
 
-    def ImportPathByIndex(self, index):
-        """string path = ImportPathByIndex(integer index)"""
+    def ImportPathByIndex(self, index) -> str:
+        """
+
+        string path = ImportPathByIndex(integer index)"""
         ...
 
-    def ImportPathCount(self):
-        """integer index = ImportPathCount()"""
+    def ImportPathCount(self) -> int:
+        """ Walk the list of imported resource paths.
+
+        integer index = ImportPathCount()"""
         ...
 
-    def IsApp64Bit(self):
-        """boolean = IsApp64Bit()"""
+    def IsApp64Bit(self) -> bool:
+        """ This returns true if the application (but not necessarily the platform) is 64 bit,
+        and false if it's 32 bit.
+
+        boolean = IsApp64Bit()"""
         ...
 
-    def IsAppActive(self):
+    def IsAppActive(self) -> bool:
         """boolean = IsAppActive()"""
         ...
 
-    def IsHeadless(self):
-        """boolean = IsHeadless()"""
+    def IsHeadless(self) -> bool:
+        """ This returns LXe_TRUE if the app is running in headless mode, and
+        LXe_FALSE if not.
+
+        boolean = IsHeadless()"""
         ...
 
-    def IsSafeMode(self):
+    def IsSafeMode(self) -> bool:
         """boolean = IsSafeMode()"""
         ...
 
-    def IsUserIdle(self):
+    def IsUserIdle(self) -> bool:
         """boolean = IsUserIdle()"""
         ...
 
-    def LicensedTo(self):
-        """string licensee = LicensedTo()"""
+    def LicensedTo(self) -> str:
+        """ Get the user the app is licensed to.  If not licensed, this fails.
+
+        string licensee = LicensedTo()"""
         ...
 
-    def NumLicenses(self):
-        """integer licenses = NumLicenses()"""
+    def NumLicenses(self) -> int:
+        """ Get the number of licenses this key works with.
+
+        integer licenses = NumLicenses()"""
         ...
 
-    def OSName(self):
+    def OSName(self) -> str:
         """string name = OSName()"""
         ...
 
-    def OSType(self):
+    def OSType(self) -> int:
         """integer type = OSType()"""
         ...
 
-    def OSVersion(self):
+    def OSVersion(self) -> str:
         """string version = OSVersion()"""
         ...
 
-    def PathByIndex(self, index):
+    def PathByIndex(self, index: int) -> str:
         """string path = PathByIndex(integer index)"""
         ...
 
-    def PathCount(self):
-        """integer count = PathCount()"""
+    def PathCount(self) -> int:
+        """ Walk the list of paths.
+
+        integer count = PathCount()"""
         ...
 
-    def PathNameByIndex(self, index):
-        """string name = PathNameByIndex(integer index)"""
+    def PathNameByIndex(self, index) -> str:
+        """ This returns the internal name of the path, or NULL if the path
+        doesn't have one.
+
+        string name = PathNameByIndex(integer index)"""
         ...
 
-    def ScriptQuery(self):
+    def ScriptQuery(self) -> object.Unknown:
         """Unknown object = ScriptQuery()"""
         ...
 
-    def SerialNumber(self):
-        """string serial = SerialNumber()"""
+    def SerialNumber(self) -> str:
+        """ Get the serial number of this key.
+
+        string serial = SerialNumber()"""
         ...
 
-    def SessionStage(self):
-        """integer stage = SessionStage()"""
+    def SessionStage(self) -> int:
+        """ The current session stage can be read with this method, indicating the status of the
+        application.
+
+        The stage can be one of the following:
+
+        #define LXfSESSIONSTAGE_STARTUP			    0x10000000
+        #define LXfSESSIONSTAGE_READY			    0x20000000
+        #define LXfSESSIONSTAGE_SHUTDOWN		    0x30000000
+
+        #define LXiSESSIONSTAGE_NOT_READY		    0
+        #define LXiSESSIONSTAGE_STARTUP_COMMANDS	(LXfSESSIONSTAGE_STARTUP  | 0)
+        #define LXiSESSIONSTAGE_SYSTEM_READY		(LXfSESSIONSTAGE_READY    | 0)
+        #define LXiSESSIONSTAGE_SHUTTING_DOWN		(LXfSESSIONSTAGE_SHUTDOWN | 0)
+
+        integer stage = SessionStage()"""
         ...
 
-    def TimerCancel(self, visitor, idleFlags):
-        """TimerCancel(object visitor,integer idleFlags)"""
+    def TimerCancel(self, visitor: object.Unknown, idleFlags: int):
+        """ A currently-running timer can be canceled with this function.  The visitor and flags
+        must match what the timer was armed with.
+
+        .. Note::
+
+            that when doing this from Python, you must pass the exact same visitor COM object
+            (not Python object).  This is also necessary when removing listeners and canceling
+            user idle actions, as discussed here: https://learn.foundry.com/modo/developers/latest/sdk/pages/faqs/PythonFAQs.html#how-do-i-remove-a-listener-object-in-python
+
+        TimerCancel(object visitor,integer idleFlags)"""
         ...
 
-    def TimerStart(self, visitor, milliseconds, idleFlags):
-        """TimerStart(object visitor,integer milliseconds,integer idleFlags)"""
+    def TimerStart(self, visitor: object.Unknown, milliseconds: int, idleFlags: int):
+        """ Timers execute after a pre-determined number of milliseconds.  A timer executes only
+        once, but you can re-arm it when it expires if you want.  The most common use of timers
+        is to check files for changes or trigger periodic refreshes of part of the UI.
+
+        .. Note::
+
+            that timers can trigger at arbitrary and unsafe times, such as in the middle of
+            rendering or while saving a file.  You should never execute a command from a timer,
+            for example, but rather arm a user idle action (and even then executing commands is
+            a bit iffy, since now you're adding something to the command history or undo list
+            that the user didn't do directly, but sometimes it is necessary).
+
+        If idleFlags are LXiUSERIDLE_ALWAYS, then the timer's visitor is called as soon as
+        the timer expires.  Otherwise, the action is deferred until user idle state matches
+        the flags.
+
+        TimerStart(object visitor,integer milliseconds,integer idleFlags)"""
         ...
 
 

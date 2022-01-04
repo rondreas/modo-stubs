@@ -953,16 +953,40 @@ fUIHINTCHAN_HIDDEN = 8
 fUIHINTCHAN_INPUT_ONLY = 2
 fUIHINTCHAN_OUTPUT_ONLY = 1
 fUIHINTCHAN_SUGGESTED = 4
-fUSERIDLE_APP_MUST_BE_ACTIVE = 4096
-fUSERIDLE_CMD_STACK_EMPTY = 32
-fUSERIDLE_EDIT_FIELDS_UNFOCUSED = 128
-fUSERIDLE_KEYS_UP = 2
-fUSERIDLE_MODIFIER_KEYS_UP = 4
-fUSERIDLE_MOUSE_BUTTONS_UP = 1
-fUSERIDLE_NO_DIALOGS_OPEN = 8
-fUSERIDLE_NO_POPS_OPEN = 16
-fUSERIDLE_NO_SUB_INPUT_LOOP = 64
-fUSERIDLE_SCENE_STABLE = 256
+
+"""
+
+    There are cases where plug-ins have out-of-band actions they need to execute from
+    the main thread when it is safe to do so.  An example might be Modo's own telnet
+    service, which can receive commands at any time but can only execute them when it
+    is safe to do so, a time that we refer to as "user idle".
+    This method can be used to perform an action a visitor when the user is idle.  It
+    is always performed from the main thread.
+    There are a number of criteria that can be used to define "idle".  You can set
+    whatever combination of flags you want, except for ALWAYS, which is a special case
+    that is executed immediately.
+
+    Generally speaking, you'll want to use ALL_IDLE, combined with APP_MUST_BE_ACTIVE when
+    applicable and just leave it at that.  It should be rare to need to remove specific flags.
+    
+"""
+iUSERIDLE_ALWAYS = 0
+
+fUSERIDLE_APP_MUST_BE_ACTIVE = 4096  # The application must be active, meaning that it currently has the focus in the OS.
+
+fUSERIDLE_MOUSE_BUTTONS_UP = 1  # All mouse buttons must be up
+fUSERIDLE_KEYS_UP = 2  # All non-modifier keys must be up
+fUSERIDLE_MODIFIER_KEYS_UP = 4  # All modifier keys must be up
+fUSERIDLE_NO_DIALOGS_OPEN = 8  # No modal windows may be open, including system dialogs
+fUSERIDLE_NO_POPS_OPEN = 16  # No popups/popovers may be open (except for tooltips)
+fUSERIDLE_CMD_STACK_EMPTY = 32  # The command stack must be empty
+fUSERIDLE_NO_SUB_INPUT_LOOP = 64  # Cannot be in a secondary input loop; meaning, we must be in the root-level input loop or no input loop at all
+fUSERIDLE_EDIT_FIELDS_UNFOCUSED = 128  # Edit field cannot have focus
+fUSERIDLE_SCENE_STABLE = 256  # Scene must not be in flux (i.e. safe to perform evaluations)
+
+# also including this define from the lxscript.h, not found in symbols
+#define USERIDLEf_ALL_IDLE 0x0FFF // Everything except APP_MUST_BE_ACTIVE
+
 fVALHINT_FORM_COMMAND_LIST = 32
 fVALHINT_ITEMS = 8
 fVALHINT_ITEMS_NONE = 16
@@ -1896,7 +1920,6 @@ iTYPE_NONE = 0
 iUNDO_ACTIVE = 1
 iUNDO_INVALID = 0
 iUNDO_SUSPEND = 2
-iUSERIDLE_ALWAYS = 0
 iUSERVALUELIFE_CONFIG = 0
 iUSERVALUELIFE_COUNT = 3
 iUSERVALUELIFE_MOMENTARY = 2
