@@ -5,11 +5,12 @@ from typing import Tuple
 
 
 # Type hints for matrices and static length tuples of floats.
-vector = tuple[float, float, float]
-Float4 = tuple[float, float, float, float]
+# the c definition of these are found in lxvmath.h
+vector = tuple[float, float, float]  # typedef double LXtVector[3];
+vector4 = tuple[float, float, float, float]
 
-Matrix3 = tuple[vector, vector, vector]
-Matrix4 = tuple[Float4, Float4, Float4, Float4]
+matrix = tuple[vector, vector, vector]  # typedef double LXtMatrix[3][3]:
+matrix4 = tuple[vector4, vector4, vector4, vector4]  # typedef double LXtMatrix4[4][4];
 
 
 class ActionClip(object):
@@ -6497,8 +6498,9 @@ class LayerScan(object):
         """Item object = MeshItem(integer index)"""
         ...
 
-    def MeshTransform(self, index: int) -> Matrix4:
-        """ returns a Matrix4 representing the world transform of the mesh item. 
+    def MeshTransform(self, index: int) -> matrix4:
+        """ returns a LXtMatrix4 representing the world transform of the mesh 
+        item. 
 
         matrix matrix = MeshTransform(integer index)
 
@@ -15197,116 +15199,199 @@ class View3D(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def Angles(self):
-        """vector hpb = Angles()"""
+    def Angles(self) -> vector:
+        """ Returns the view transformation of the specified view as heading, pitch and bank angles.
+
+        vector hpb = Angles()"""
         ...
 
-    def Axis(self):
-        """(integer,integer cam,vector axis) = Axis()"""
+    def Axis(self) -> tuple[int, int, vector]:
+        """ Returns the view axis. Note that perspective views return -1, and that UV
+        views always return a Z axis. For convenience, the view's camera mode is also
+        provided. If it or the 'axis' vector pointers are NULL they will not be filled.
+
+        (integer,integer cam,vector axis) = Axis()"""
         ...
 
-    def BackdropAspect(self):
-        """(integer,float asp) = BackdropAspect()"""
+    def BackdropAspect(self) -> tuple[int, float]:
+        """ Returns the aspect ratio of the backdrop image, and whether the aspect is locked.
+        If there is no image, LXe_NOTFOUND will be returned.
+
+        (integer,float asp) = BackdropAspect()"""
         ...
 
-    def BackdropLook(self):
-        """(integer,float brit,float cont,float trns) = BackdropLook()"""
+    def BackdropLook(self) -> tuple[int, float, float, float]:
+        """ Returns the invert state and fills brightness, contrast, and transparency of the backdrop image.
+        If there is no image, LXe_NOTFOUND will be returned.
+
+        (integer,float brit,float cont,float trns) = BackdropLook()"""
         ...
 
-    def BackdropName(self):
-        """string = BackdropName()"""
+    def BackdropName(self) -> str:
+        """ Returns the name of the image used by the specified view.
+        If there is no image it will be null.
+
+        string = BackdropName()"""
         ...
 
-    def BackdropOrient(self):
-        """(integer,float ang) = BackdropOrient()"""
+    def BackdropOrient(self) -> tuple[int, float]:
+        """ Returns the rotation and horizontal-flip state of the backdrop image.
+        If there is no image, LXe_NOTFOUND will be returned.
+
+        (integer,float ang) = BackdropOrient()"""
         ...
 
-    def BackdropPlace(self):
-        """(float cx,float cy,float w,float h) = BackdropPlace()"""
+    def BackdropPlace(self) -> tuple[float, float, float, float]:
+        """ Returns the center position and dimensions of the backdrop image.
+        If there is no image, LXe_NOTFOUND will be returned.
+
+        (float cx,float cy,float w,float h) = BackdropPlace()"""
         ...
 
     def BackdropRender(self):
-        """(integer,integer resolution,integer blend) = BackdropRender()"""
+        """ Returns the overlay state and fills resolution and pixel-blending of the backdrop image.
+        If there is no image, LXe_NOTFOUND will be returned.
+
+        (integer,integer resolution,integer blend) = BackdropRender()"""
         ...
 
-    def Bounds(self):
-        """(integer x,integer y,integer w,integer h) = Bounds()"""
+    def Bounds(self) -> tuple[int, int, int, int]:
+        """ Returns the upper left corner coordinates for the view, and its width and height
+        in pixels.
+
+        (integer x,integer y,integer w,integer h) = Bounds()"""
         ...
 
-    def Center(self):
-        """vector center = Center()"""
+    def Center(self) -> vector:
+        """ Returns the position vector for the center of the view.
+
+        vector center = Center()"""
         ...
 
-    def Deformers(self):
-        """Deformers()"""
+    def Deformers(self) -> bool:
+        """ Returns LXe_TRUE if "Deformers" stat of the view is ON, otherwise 
+        it returns LXe_FALSE.
+
+        Deformers()"""
         ...
 
-    def EyeVector(self):
-        """(float,vector pos,vector dir) = EyeVector()"""
+    def EyeVector(self) -> tuple[float, vector, vector]:
+        """ Computes the gaze direction and distance for a point at 'pos' in the view.
+        The 'dir' vector is normalized, and the distance from eye to pos is returned by the function.
+
+        (float,vector pos,vector dir) = EyeVector()"""
         ...
 
-    def FrameRate(self):
-        """float = FrameRate()"""
+    def FrameRate(self) -> float:
+        """ Returns the frame rate of the view, meanng how quickly GL is drawing.  This is identical
+        to the results displayed in the viewport from the "glmeter" command.
+
+        float = FrameRate()"""
         ...
 
-    def GridSize(self):
-        """float = GridSize()"""
+    def GridSize(self) -> float:
+        """ Returns the current grid size of the view.
+
+        float = GridSize()"""
         ...
 
-    def InvalidateSurface(self, item):
-        """InvalidateSurface(object item)"""
+    def InvalidateSurface(self, item: Unknown):
+        """ Invalidate GL Draw Cache for an item. 
+
+        InvalidateSurface(object item)"""
         ...
 
-    def ItemIsVisible(self, item):
-        """ItemIsVisible(object item)"""
+    def ItemIsVisible(self, item: Unknown) -> bool:
+        """ Returns LXe_TRUE if the item is visible, otherwise it returns LXe_FALSE.
+
+        ItemIsVisible(object item)"""
         ...
 
-    def ItemShade(self, item):
-        """integer shade = ItemShade(object item)"""
+    def ItemShade(self, item: Unknown) -> int:
+        """ Return the shading style (VPOPT_SHADE_XXX) of the given item.
+
+        integer shade = ItemShade(object item)"""
         ...
 
-    def Matrix(self, inverse):
-        """matrix mat = Matrix(integer inverse)"""
+    def Matrix(self, inverse: bool) -> matrix:
+        """ Returns the view transform matrix or its inverse.
+
+        matrix mat = Matrix(integer inverse)"""
         ...
 
-    def PixelSize(self):
-        """float = PixelSize()"""
+    def PixelSize(self) -> float:
+        """ Returns the approximate size of a single pixel in model space units.
+
+        float = PixelSize()"""
         ...
 
-    def SetCenter(self, vec):
-        """SetCenter(vector vec)"""
+    def SetCenter(self, vec: vector):
+        """ SetCenter(vector vec)"""
         ...
 
-    def SetMatrix(self, mat):
-        """SetMatrix(matrix mat)"""
+    def SetMatrix(self, mat: matrix):
+        """ SetMatrix(matrix mat)"""
         ...
 
-    def SetScale(self, scl):
-        """SetScale(float scl)"""
+    def SetScale(self, scl: float):
+        """ SetScale(float scl)"""
         ...
 
-    def Space(self):
-        """integer = Space()"""
+    def Space(self) -> int:
+        """ Returns the viewspace type of the view. It will be one
+        of the following for valid indices:
+
+        #define LXi_VPSPACE_MODEL		LXxID4('M','O','3','D')
+        #define LXi_VPSPACE_TEXTURE		LXxID4('U','V','2','D')
+        #define LXi_VPSPACE_WORLD		LXxID4('W','O','3','D')
+        #define LXi_VPSPACE_PREVIEW		LXxID4('P','R','E','V')
+        #define LXi_VPSPACE_MODEL2D		LXxID4('M','O','2','D')
+        #define LXi_VPSPACE_GRAPH		LXxID4('V','P','G','E')
+        #define LXi_VPSPACE_SCHEMATIC		LXxID4('S','C','H','M')
+
+        integer = Space()"""
         ...
 
-    def Style(self, option):
-        """integer = Style(integer option)"""
+    def Style(self, option: int) -> int:
+        """ Returns the state of the specified option for the specified view.
+        The option must be one of the LXi_VPSTYLE_* values, and the return state
+        will be the appropriate LXI_VPOPT_* value. For simple2-state options,
+        LXi_VPOPT_OFF and LXi_VPOPT_ON will be returned.
+
+        integer = Style(integer option)"""
         ...
 
-    def To3D(self, x, y, flags):
-        """vector pos = To3D(float x,float y,integer flags)"""
+    def To3D(self, x: float, y: float, flags: int) -> vector:
+        """ returns position and nearest axis for the screen coordinates x,y.
+        The flag velues determine whether the position is snapped to the user
+        grid, and whether the workplane is used or not.
+
+        i_VPTO3D_SNAP = 1
+        i_VPTO3D_WORK = 2
+
+        vector pos = To3D(float x,float y,integer flags)"""
         ...
 
-    def To3DHit(self, x, y):
-        """(vector pos,vector nrm) = To3DHit(float x,float y)"""
+    def To3DHit(self, x: float, y: float) -> tuple[vector, vector]:
+        """ sets the position and normal for the ray hit for screen coordinate x,y.
+
+        (vector pos,vector nrm) = To3DHit(float x,float y)"""
         ...
 
-    def ToUVHit(self, name, x, y, layer):
-        """(float u,float v) = ToUVHit(string name,float x,float y,integer layer)"""
+    def ToUVHit(self, name: str, x: float, y: float, layer: int) -> tuple[float, float]:
+        """ returns the U and V for the ray hit for screen coordinate x,y.
+
+        .. Note::
+
+            not found in the document but guessing name refers to the vmap for which to check.
+
+        (float u,float v) = ToUVHit(string name,float x,float y,integer layer)"""
         ...
 
-    def WorkPlane(self):
-        """(integer,vector center) = WorkPlane()"""
+    def WorkPlane(self) -> tuple[int, vector]:
+        """ returns the workplane center and axis
+
+        (integer,vector center) = WorkPlane()"""
         ...
 
     def set(self, source: object) -> bool:
