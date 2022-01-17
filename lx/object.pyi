@@ -6462,11 +6462,20 @@ class LayerScan(object):
         ...
 
     def Apply(self) -> None:
-        """Apply()"""
+        """ Called at the end of an edit operation, Apply() performs all the mesh edits and
+        terminates the scan. If this is not called for an edit scan any edits will be abandoned.
+
+        Apply()
+
+        """
         ...
 
     def Count(self) -> int:
-        """integer count = Count()"""
+        """ Get the number of layers in the scan.
+
+        integer count = Count()
+
+        """
         ...
 
     def GetState(self, index: int) -> int:
@@ -6483,19 +6492,33 @@ class LayerScan(object):
         ...
 
     def MeshBase(self, index: int) -> Mesh:
-        """Mesh object = MeshBase(integer index)"""
+        """ Mesh, as stored in the scene.
+
+        Mesh object = MeshBase(integer index)"""
         ...
 
     def MeshEdit(self, index: int) -> Mesh:
-        """Mesh object = MeshEdit(integer index)"""
+        """ Mesh that is deformed by the current selected modelling morph and allowing edits. Only
+        available if the lx.symbol.f_LAYERSCAN_WRITEMESH flag was set.
+
+        Mesh object = MeshEdit(integer index)
+
+        """
         ...
 
     def MeshInstance(self, index: int) -> Mesh:
-        """Mesh object = MeshInstance(integer index)"""
+        """ Mesh that is deformed by the current selected modelling morph.
+
+        Mesh object = MeshInstance(integer index)
+
+        """
         ...
 
     def MeshItem(self, index: int) -> Item:
-        """Item object = MeshItem(integer index)"""
+        """ Each layer is associated with a mesh item. The client can also get the action for the
+        item to read channel values.
+
+        Item object = MeshItem(integer index)"""
         ...
 
     def MeshTransform(self, index: int) -> matrix4:
@@ -7371,7 +7394,7 @@ class Mesh(object):
         """MergeWithTransform(object other,matrix xfrm,integer flags)"""
         ...
 
-    def MeshMapAccessor(self):
+    def MeshMapAccessor(self) -> MeshMap:
         """MeshMap object = MeshMapAccessor()"""
         ...
 
