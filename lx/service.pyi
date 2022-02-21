@@ -2647,50 +2647,94 @@ class TextEncoding(object):
 
 
 class Thread(object):
-    def CleanupThread(self):
-        """CleanupThread()"""
-        ...
-
-    def CreateCS(self):
-        """ThreadMutex object = CreateCS()"""
-        ...
-
-    def CreateGroup(self):
-        """ThreadGroup object = CreateGroup()"""
-        ...
-
-    def CreateMutex(self):
+    def CreateMutex(self) -> object.ThreadMutex:
         """ThreadMutex object = CreateMutex()"""
         ...
 
-    def CreateSlot(self, size, client):
-        """ThreadSlot object = CreateSlot(integer size,object client)"""
+    def CreateCS(self) -> object.ThreadMutex:
+        """ Create "Critical Section"
+
+        ThreadMutex object = CreateCS()
+        """
         ...
 
-    def InitThread(self):
-        """InitThread()"""
+    def CreateGroup(self) -> object.ThreadGroup:
+        """ Thread service interface allow new groups to be created.
+
+        ThreadGroup object = CreateGroup()
+
+        """
         ...
 
-    def IsMainThread(self):
-        """integer = IsMainThread()"""
+    def NumProcs(self) -> int:
+        """ Determine how many processes are available
+
+        integer = NumProcs()"""
+
         ...
 
-    def NumProcs(self):
-        """integer = NumProcs()"""
+    def IsMainThread(self) -> bool:
+        """ Check if this is the main thread.
+
+        bool = IsMainThread()
+
+        """
         ...
 
-    def ProcessRange(self, data, startIndex, endIndex, rangeWorker):
-        """ProcessRange(pointer data,integer startIndex,integer endIndex,object rangeWorker)"""
+    def CreateSlot(self, size: int, client: object.ThreadSlotClient) -> object.ThreadSlot:
+        """ Allocating a new thread slot
+
+        ThreadSlot object = CreateSlot(integer size,object client)
+
+        """
         ...
 
     def ProcessShared(self, shared):
-        """ProcessShared(object shared)"""
+        """ You start with a single one of these objects that contains all the work. You then
+        call the ProcesShared() method in the service. This will spawn enough of the shared
+        work objects to populate the available computing resources. Each one will then process
+        all the work it has, getting more from the main shared work object when they are
+        empty. When all the work is done the sub-objects are destroyed.
+
+        ProcessShared(object shared)"""
         ...
 
-    def ProcessWaterfall(self, waterfall, threads):
-        """ProcessWaterfall(object waterfall,integer threads)"""
+    def ProcessRange(self, data, startIndex: int, endIndex: int, rangeWorker: object.ThreadRangeWorker):
+        """ Multi-processing over a range of indices (such as scanlines in an image).
+
+        ProcessRange(pointer data,integer startIndex,integer endIndex,object rangeWorker)
+
+        """
         ...
 
+    def InitThread(self):
+        """ If a plugin creates its own threads, using some external library (like pthreads or OpenMP),
+        it needs to initialize itself before it can call Nexus functions. This function allows that.
+        If the thread has already initialized itself, this function will do nothing.
+
+        InitThread()
+
+        """
+        ...
+
+    def CleanupThread(self):
+        """ Once the thread has finished executing Nexus code, it needs to free the Nexus specific thread-data,
+        so it must call CleanupThread, or there will be a memory leak.
+
+        CleanupThread()
+
+        """
+        ...
+
+    def ProcessWaterfall(self, waterfall: object.Waterfall, threads: int):
+        """ This method takes a waterfall object and processes all the work it contains.
+        New instances will be spawned to fill out the given number of threads, or
+        one for each processor is the thread count is zero.
+
+        ProcessWaterfall(object waterfall,integer threads)
+
+        """
+        ...
 
 
 class Undo(object):
