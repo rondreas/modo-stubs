@@ -6531,11 +6531,22 @@ class LayerScan(object):
         ...
 
     def SetMeshChange(self, index: int, edits: int) -> None:
-        """SetMeshChange(integer index,integer edits)"""
+        """ The layer scan client is responsible for indicating what types of changes they are
+        making to a mesh. The mesh change bit mask should be set for all edited meshes before
+        changes are applied.
+
+        SetMeshChange(integer index,integer edits)
+
+        """
         ...
 
     def Update(self) -> None:
-        """Update()"""
+        """ Called at intermediate points of an edit operation, Update() performs the mesh edits,
+        but does not terminate the scan.
+
+        Update()
+
+        """
         ...
 
     def set(self, source: object) -> bool:
@@ -7362,11 +7373,11 @@ class Mesh(object):
         """Clear()"""
         ...
 
-    def EdgeAccessor(self):
+    def EdgeAccessor(self) -> Edge:
         """Edge object = EdgeAccessor()"""
         ...
 
-    def EdgeCount(self):
+    def EdgeCount(self) -> int:
         """integer count = EdgeCount()"""
         ...
 
@@ -7374,15 +7385,15 @@ class Mesh(object):
         """EndEditBatch()"""
         ...
 
-    def MapCount(self):
+    def MapCount(self) -> int:
         """integer count = MapCount()"""
         ...
 
-    def MaxPointPolygons(self, pick):
+    def MaxPointPolygons(self, pick) -> int:
         """integer count = MaxPointPolygons(integer pick)"""
         ...
 
-    def MaxPolygonSize(self, pick):
+    def MaxPolygonSize(self, pick) -> int:
         """integer count = MaxPolygonSize(integer pick)"""
         ...
 
@@ -7458,15 +7469,15 @@ class Mesh(object):
         """string tag = PTagByIndex(integer type,integer index)"""
         ...
 
-    def PTagCount(self, type):
+    def PTagCount(self, type: int) -> int:
         """integer = PTagCount(integer type)"""
         ...
 
-    def PointAccessor(self):
+    def PointAccessor(self) -> Point:
         """Point object = PointAccessor()"""
         ...
 
-    def PointCount(self):
+    def PointCount(self) -> int:
         """integer count = PointCount()"""
         ...
 
@@ -7474,39 +7485,39 @@ class Mesh(object):
         """PolyTagSetDefault(integer type,string tag)"""
         ...
 
-    def PolygonAccessor(self):
+    def PolygonAccessor(self) -> Polygon:
         """Polygon object = PolygonAccessor()"""
         ...
 
-    def PolygonCount(self):
+    def PolygonCount(self) -> int:
         """integer count = PolygonCount()"""
         ...
 
-    def SUBDGetLevel(self):
+    def SUBDGetLevel(self) -> int:
         """integer n = SUBDGetLevel()"""
         ...
 
-    def SUBDGetLinearUV(self):
+    def SUBDGetLinearUV(self) -> int:
         """integer isLinear = SUBDGetLinearUV()"""
         ...
 
-    def SUBDSetLevel(self, n):
+    def SUBDSetLevel(self, n: int):
         """SUBDSetLevel(integer n)"""
         ...
 
-    def SUBDSetLinearUV(self, isLinear):
+    def SUBDSetLinearUV(self, isLinear: int):
         """SUBDSetLinearUV(integer isLinear)"""
         ...
 
-    def SetMeshEdits(self, edits):
+    def SetMeshEdits(self, edits: int):
         """SetMeshEdits(integer edits)"""
         ...
 
-    def TestSameMesh(self, other):
+    def TestSameMesh(self, other) -> bool:
         """boolean = TestSameMesh(object other)"""
         ...
 
-    def TrackChanges(self):
+    def TrackChanges(self) -> Unknown:
         """Unknown object = TrackChanges()"""
         ...
 
@@ -9224,7 +9235,7 @@ class Polygon(object):
         """Remove()"""
         ...
 
-    def RepresentativePosition(self):
+    def RepresentativePosition(self) -> vector:
         """vector pos = RepresentativePosition()"""
         ...
 
@@ -13138,7 +13149,7 @@ class ThreadGroup(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def AddJob(self, job):
+    def AddJob(self, job: ThreadJob):
         """AddJob(object job)"""
         ...
 
@@ -13154,11 +13165,11 @@ class ThreadGroup(object):
         """Kill()"""
         ...
 
-    def NumJobs(self):
+    def NumJobs(self) -> int:
         """integer = NumJobs()"""
         ...
 
-    def Running(self):
+    def Running(self) -> bool:
         """boolean = Running()"""
         ...
 
