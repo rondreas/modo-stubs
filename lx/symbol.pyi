@@ -585,36 +585,120 @@ fCMD_EXEC_NONE = 0
 fCMD_EXEC_NO_ABORT = 8192
 fCMD_EXEC_PARENT_FLAGS_PASSED_MARKER = 32768
 fCMD_EXEC_TOGGLED = 4096
-fCMD_EXTRA1 = 8192
-fCMD_EXTRA2 = 16384
 fCMD_INIT_ONLY = 1048560
 fCMD_INTERNAL = 131072
-fCMD_MODEL = 33554432
 fCMD_MOUSEDOWNOK = 524288
-fCMD_MUSTSETARG = 4096
-fCMD_NO_EXEC = 1073741824
 fCMD_PARSED_FLAGS = 268435456
-fCMD_POSTCMD = 2048
+
+""" The current command flags are available through this function.  
+A command may return different flags based on its required arguments. """
+
+# The following flags can be set only during setup:
+""" If present this flag marks the command as a selection command. """
+fCMD_SELECT = 128  
+""" These are a special type of command that allows lower-level operations to
+be wrapped.  They do not have an undo context, thus allowing them to issue
+undos themselves.  The primary use of QUIET commands is specific UI behaviors
+that in turn call lower level commands to perform the actual operation.
+Since they do not show up in the history and do not have an undo context, a
+command block is often used to encapsulate a QUIET commands' multiple
+sub-command firings.  Otherwies, each sub-command will show up as a separate
+entry in the history. 
+
+If set, the command will not be recorded in the history or undo system when
+activated.  This can be useful either for commands that make no sense in
+scripts, or for commands that are mearly front-ends for real commands.  If
+a quiet command fires a real command, the real command will be recorded.
+QUIET commands do not directly affect the undo stack, but may fire commands
+that do.  Note that each command fired by a QUIET command will show up as
+a separate events, so more complex uses should include a command block to
+wrap multiple undoable commands.  The QUIET flag overrides all others.
+
+Note that a QUIET command does not get an undo context, and in itself is
+not undoable, although the commands it fires can be undoable.  If multiple
+commands need to be fired, a command block can be used, creating a single
+undoable event.  Note that creating a command block within a QUIET command
+is not enough to begin executing undoable code. """
 fCMD_QUIET = 1024
+""" This command supports the post command mechanism. """
+fCMD_POSTCMD = 2048  
+""" If set, at least one argument of a command that contains all optional
+arguments must be set for the command to execute.  If no arugments have
+a value, a dialog is opened as though a required argument were missing.
+If any value is set, the command is executed. """
+fCMD_MUSTSETARG = 4096
+""" If set, app.undo does an extra undo after this command is undone. 
+This flag is reset when this command is not fired in post command mode. """
+fCMD_EXTRA1 = 8192
+""" If set, app.undo does an extra undo when next command block includes this flag. """
+fCMD_EXTRA2 = 16384
+
+# These flags may be set both during setup and through the flags callback.
+""" The command supports key repeat and will be fired continuously while the 
+shortcut key is held down. """
 fCMD_REPEAT = 1048576
+""" The command affects the user interface.  This affects how the command is
+shown in the Command History viewport.  UI commands should not affect the
+model and are not undoable.  UI commands can be executed from sandboxes if
+the UI flag is set for the sandbox. """
+fCMD_UI = 16777216
+""" The command affects the internal state of the program, such as modifying
+geometry, changing motions, or performing some other model-level change.
+Model commands are not undable by default, and cause any pending undos or
+redos to be purged.  Model commands can NOT be used in a sandbox. """
+fCMD_MODEL = 33554432
+""" The command is not executable, and its Interact(), PreExecute(), Execute(),
+and other related methods will never be called.  Such commands are often
+used for special behaviors like form command lists (FCLs), command filters
+in forms, and so on.  The string defined by the command's NoExecReason atom
+in its cmdhelp will be used to tell the user whey it is never executed. """
+fCMD_NO_EXEC = 1073741824
+""" This defines an undoable MODEL command, which can be undone and redone.
+The command is responsible for correctly registering its undos with the
+undo system, or calling other functions that do this themselves.  Undoable
+commands can NOT be used in a sandbox. """
+fCMD_UNDO = 100663296
+""" This defines an undoable UI command. These are similar to undoable MODEL
+commands, but undo UI constructs. They are also fairly transient, when
+a MODEL or undoable MODEL command is executed, any undoable UI command
+undos or redos are flushed. They are mostly intended to allow the user
+to correct immediate or very recent mistakes made to UI constructs themselves,
+rather than allowing them to step all the way back to the beginning of UI
+changes as can be done with undoable MODEL commands.  Note that UNDO_UI
+commands can only be executed as a root command, or a child of another
+UNDO_UI command or UNDO_UI command block and retain their undos; executing
+as a child of any other command or block type will cause the undos to be
+lost. """
+fCMD_UNDO_UI = 83886080
+""" This is used by the commands that actually modify the undo state directly
+through the undo system, such as app.undo, app.redo and app.undoClear.
+It should rarely ever be used.  UNDOSPECIAL commands are very much like
+QUIET commands, and cannot be called from sub-commands or inside scripts,
+and are not recorded by the command history that they are likely changing. """
+fCMD_UNDOSPECIAL = 134217728
+""" This flag is used in conjunction with UNDO or UNDO_UI.  The command can
+execute undoable actions as normal, but after the command finishes executing
+the undo blocks within are discarded, effectively undoing the command, even
+if it executes successfully.  This is useful when performing temporary
+operations where you need to modify the scene but don't want those changes
+to be permanent.  The command will appear in the history as a side effect
+command. """
+fCMD_UNDO_AFTER_EXEC = 536870912
+
 fCMD_SANDBOXED = 268435456
-fCMD_SELECT = 128
 fCMD_SELECTIONLESS = 32768
 fCMD_STICKYLESS = 262144
 fCMD_TYPES = 4278190080
-fCMD_UI = 16777216
-fCMD_UNDO = 100663296
-fCMD_UNDOSPECIAL = 134217728
-fCMD_UNDO_AFTER_EXEC = 536870912
 fCMD_UNDO_INTERNAL = 67108864
-fCMD_UNDO_UI = 83886080
-fDCETYPE_DIR = 2
-fDCETYPE_DIR_AS_FILE = 32
+
 fDCETYPE_FILE = 1
-fDCETYPE_FILTERED = 1024
+fDCETYPE_DIR = 2
 fDCETYPE_READONLY = 16
-fDCETYPE_REFERENCE = 512
+fDCETYPE_DIR_AS_FILE = 32
 fDCETYPE_SYNTHETIC = 256
+fDCETYPE_REFERENCE = 512
+fDCETYPE_FILTERED = 1024
+
 fDEFORMATION_NONLINEAR = 1
 fDEFORMATION_RIGIDXFRM = 2
 fDEFORMATION_USESUBSET = 4
