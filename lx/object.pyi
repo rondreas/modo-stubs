@@ -10251,23 +10251,44 @@ class RenderStats(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def GetFrameStats(self, frameIndex):
-        """Unknown object = GetFrameStats(integer frameIndex)"""
+    def GetFrameStats(self, frameIndex: int) -> Unknown:
+        """ This convenience function gets the stats representing an entire frame
+        (ie: the last pass in the frame).  As usual, the object must be released
+        when no longer needed.
+
+        Unknown object = GetFrameStats(integer frameIndex)
+
+        """
         ...
 
-    def GetPassStats(self, frameIndex, ...Index):
-        """Unknown object = GetPassStats(integer frameIndex,integer ...Index)"""
+    def GetPassStats(self, frameIndex: int, passIndex) -> Unknown:
+        """ This can be used to get the ILxAttributes object for a particular pass.
+        Frames and passes are referenced by index. not by frame number or pass
+        name or anything like that.  As usual, the object must be released when
+        no longer needed.
+
+        Unknown object = GetPassStats(integer frameIndex,integer passIndex)
+
+        """
         ...
 
-    def GetSceneStats(self):
-        """Unknown object = GetSceneStats()"""
+    def GetSceneStats(self) -> Unknown:
+        """ This similarly gets the stats representing the entire scene (ie: the
+        last pass in the last frame).  As usual, the object must be released
+        when no longer needed.
+
+        Unknown object = GetSceneStats()"""
         ...
 
-    def NumFrames(self):
-        """integer count = NumFrames()"""
+    def NumFrames(self) -> int:
+        """ This returns the number of frames in the render.
+
+        integer count = NumFrames()
+
+        """
         ...
 
-    def NumPasses(self, frameIndex):
+    def NumPasses(self, frameIndex: int) -> int:
         """integer count = NumPasses(integer frameIndex)"""
         ...
 

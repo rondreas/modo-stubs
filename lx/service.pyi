@@ -2181,7 +2181,13 @@ class Render(object):
         ...
 
     def JobAbort(self):
-        """JobAbort()"""
+        """ This aborts a currently running render job.  It will fail if no jobs are
+        currently rendering.  Note that although this function returns immediately,
+        it may take some time before the render has finished aborting.
+
+        JobAbort()
+
+        """
         ...
 
     def JobCleanup(self, clearJob):
@@ -2189,7 +2195,10 @@ class Render(object):
         ...
 
     def JobCurrent(self):
-        """RenderJob object = JobCurrent()"""
+        """ This returns the current render job, failing if there is no current job.  The
+        returned object must be released by the caller if the method returns success.
+
+        RenderJob object = JobCurrent()"""
         ...
 
     def JobIsSlave(self):
@@ -2208,20 +2217,59 @@ class Render(object):
         """integer type = JobRenderOutputType(integer index)"""
         ...
 
-    def JobSetCurrent(self, job):
-        """JobSetCurrent(object job)"""
+    def JobSetCurrent(self, job: object.Unknown):
+        """ The client provides information about how to render a scene with a render job.
+        This is a COM object with an ILxRenderJob interface, as described below.
+        Frames, animations, turntables and baking can be rendered by providing a job
+        to the render service.
+
+        A specific render job can be set as the current job with this method, or the
+        current job can be set to nothing by passing NULL.  Attempting to set the
+        render job will fail if another job is currently being rendered.  The job
+        provided will be AddRef()'ed by the service.
+
+        JobSetCurrent(object job)"""
         ...
 
     def JobStart(self):
-        """JobStart()"""
+        """ This method can be used to start rendering the current job, using the
+        properties of the job to render the scene.  This function does not block,
+        and will return immediately.  Status updates are sent to various methods
+        on the job object itself.
+
+        JobStart()"""
         ...
 
     def JobStats(self):
-        """object = JobStats()"""
+        """ This returns an ILxRenderStats container object containing information about the current
+        render  See the ILxRenderStats description below for more information.  The container and
+        the individual stats objects are dynamically updated while rendering, so you can hold on
+        to the container object for the life of the render.  The object must be released when no
+        longer needed.
+
+        object = JobStats()"""
         ...
 
     def JobStatus(self):
-        """JobStatus()"""
+        """ This returns the current status of a render job as an LxResult code.
+
+        - LXe_RENDER_IDLE
+        A job is loaded (JobCurrent() would succeed), but is not currently rendering
+        a frame.  The system is effectively idle and waiting for JobStart() to be
+        called, or for a new job to be loaded.
+        
+        - LXe_RENDER_RENDERING
+        Returns true if the currently loaded job is rendering a frame.
+        
+        - LXe_RENDER_NO_JOB
+        There is no current current job (and thus JobCurrent() would fail).  A new
+        job must be set with JobSetCurrent() before calling JobStart().
+        
+        - LXe_RENDER_ABORTING
+        JobAbort() was called and the job is in the process of aborting, but has not
+        yet finished.
+
+        JobStatus()"""
         ...
 
     def RefreshProgressImageMetrics(self):
