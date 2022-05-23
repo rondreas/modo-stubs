@@ -2476,28 +2476,41 @@ class Selection(object):
         """AbortBatch()"""
         ...
 
-    def Allocate(self, name):
+    def Allocate(self, name: str) -> object:
         """SelectionType object = Allocate(string name)"""
         ...
 
-    def ByIndex(self, type, idx):
+    def ByIndex(self, type, idx) -> int:
         """pointer = ByIndex(integer type,integer idx)"""
         ...
 
-    def Clear(self, type):
-        """Clear(integer type)"""
+    def Clear(self, type: int):
+        """ This is like Drop() but doesn't change the current selection mode.
+
+        Clear(integer type)
+
+        """
         ...
 
-    def Count(self, type):
+    def Count(self, type: int) -> int:
         """integer = Count(integer type)"""
         ...
 
-    def CurrentSubTypes(self, type, sub, len):
+    def CurrentSubTypes(self, type: int, sub: lx.object.storage, len: int):
         """integer num = CurrentSubTypes(integer type,unsigned[] sub,integer len)"""
         ...
 
-    def CurrentType(self, types):
-        """integer = CurrentType(unsigned[] types)"""
+    def CurrentType(self, types: lx.object.storage):
+        """ This returns the most recent selection type -- the one the user acted on last.
+        If 'types' is non-null, it will be an array of types terminated with zero,
+        and the type returned will be one of the ones in the list.
+
+        >>> selection_service = lx.service.Selection()
+        >>> current_type = selection_service.CurrentType(lx.object.storage('i'))
+
+        integer = CurrentType(unsigned[] types)
+
+        """
         ...
 
     def Deselect(self, type, packet):
@@ -2549,7 +2562,11 @@ class Selection(object):
         ...
 
     def State(self, type, packet):
-        """integer = State(integer type,pointer packet)"""
+        """ This is similar to Test(), but returns the actual selection state for
+        the element. State can have one or more of the LXf_SELECTION_* bits
+        set, or be LXf_SELECTION_NONE.
+
+        integer = State(integer type,pointer packet)"""
         ...
 
     def Test(self, type, packet):
