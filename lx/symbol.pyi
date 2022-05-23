@@ -2003,10 +2003,12 @@ iTREE_CHILD = 2
 iTREE_CLONE = 0
 iTREE_PARENT = 1
 iTREE_ROOT = 3
-iTVXFMf_INVERSE = 4
-iTVXFMf_MATRIX = 2
-iTVXFMf_OFFSET = 1
-iTVXFMf_USEFUL = 3
+
+iTVXFMf_OFFSET = 1  # Should be set if the position vector 'v' is non-zero
+iTVXFMf_MATRIX = 2  # Should be set if the matrix is NOT the identity matrix, as an indication to tools that this transformation is necessary.
+iTVXFMf_INVERSE = 4  # Should be set if there is a valid inverse transform matrix in 'mInv'.
+iTVXFMf_USEFUL = 3  # Transforms that have no bits from LXiTVXFMf_USEFUL set are identity transformations, and can be skipped.
+
 iTYPE_ANY = -1
 iTYPE_NONE = 0
 iUNDO_ACTIVE = 1
@@ -4032,15 +4034,22 @@ sP_TEXTURE_INPUT = "texture.input"
 sP_TEXTURE_LOCATOR = "texture.locator"
 sP_TEXTURE_OUTPUT = "texture.output"
 sP_TEXTURE_VALUE = "texture.value"
-sP_TOOL_3D_EVENT = "Tool3DEvent"
+
+sP_TOOL_SUBJECT = "tool.subject"
 sP_TOOL_ACTCENTER = "tool.actionCenter"
 sP_TOOL_AXIS = "tool.axis"
+sP_TOOL_XFRM = "tool.xfrm"
+
+sP_TOOL_FALLOFF = "tool.falloff"
+sP_TOOL_SYMMETRY = "tool.symmetry"
+sP_TOOL_TEXTURE = "tool.texture"
+sP_TOOL_ELTCENTER = "tool.eltCenter"
+sP_TOOL_ELTAXIS = "tool.eltAxis"
+
+sP_TOOL_3D_EVENT = "Tool3DEvent"
 sP_TOOL_COLOR = "ToolColor"
 sP_TOOL_CONTENT = "tool.content"
-sP_TOOL_ELTAXIS = "tool.eltAxis"
-sP_TOOL_ELTCENTER = "tool.eltCenter"
 sP_TOOL_EVENTTRANS = "toolEventTranslate"
-sP_TOOL_FALLOFF = "tool.falloff"
 sP_TOOL_HIT_EVENT = "ToolHitEvent"
 sP_TOOL_IMAGE = "toolImage"
 sP_TOOL_INPUT_EVENT = "ToolInputEvent"
@@ -4057,13 +4066,10 @@ sP_TOOL_SCREEN_EVENT = "ToolScreenEvent"
 sP_TOOL_SNAPELEMENT = "toolSnapElement"
 sP_TOOL_STROKE_EVENT = "ToolStrokeEvent"
 sP_TOOL_STYLE = "tool.style"
-sP_TOOL_SUBJECT = "tool.subject"
 sP_TOOL_SUBJECT2 = "tool.subject2"
-sP_TOOL_SYMMETRY = "tool.symmetry"
 sP_TOOL_TABLET_EVENT = "ToolTabletEvent"
-sP_TOOL_TEXTURE = "tool.texture"
 sP_TOOL_VIEW_EVENT = "ToolViewEvent"
-sP_TOOL_XFRM = "tool.xfrm"
+
 sSAV_DOSTYPE = "saver.dosType"
 sSAV_IMAGE_FLOAT = "saver.imageFloat"
 sSAV_MACTYPE = "saver.macType"
