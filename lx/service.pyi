@@ -1724,23 +1724,23 @@ class NotifySys(object):
 
 
 class Packet(object):
-    def AddPacket(self, vtype, name, flags):
+    def AddPacket(self, vtype: object.VectorType, name: str, flags: int):
         """AddPacket(object vtype,string name,integer flags)"""
         ...
 
-    def CreateVectorType(self, category):
+    def CreateVectorType(self, category: str) -> object.VectorType:
         """VectorType object = CreateVectorType(string category)"""
         ...
 
-    def FastPacket(self, vector, offset):
+    def FastPacket(self, vector: object.VectorType, offset: int):
         """pointer = FastPacket(object vector,integer offset)"""
         ...
 
-    def Lookup(self, category, name):
+    def Lookup(self, category: str, name: str) -> int:
         """integer offset = Lookup(string category,string name)"""
         ...
 
-    def Name(self, category, offset):
+    def Name(self, category: str, offset: int) -> str:
         """string name = Name(string category,integer offset)"""
         ...
 
