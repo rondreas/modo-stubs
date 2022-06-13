@@ -2362,8 +2362,10 @@ class Scene(object):
         """string value = ItemTypeGetTag(integer type,string tag,integer super)"""
         ...
 
-    def ItemTypeLookup(self, name):
-        """integer type = ItemTypeLookup(string name)"""
+    def ItemTypeLookup(self, name: str) -> int:
+        """ Given a type name, this returns the type ID.
+
+        integer type = ItemTypeLookup(string name)"""
         ...
 
     def ItemTypeName(self, type):
