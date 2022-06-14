@@ -1397,39 +1397,68 @@ class ChannelUI(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def Cookie(self, channelName, requestedFor):
-        """string cookie = Cookie(string channelName,string requestedFor)"""
+    def Enabled(self, channelName: str, msg: Unknown, item: Unknown, chanRead: Unknown) -> int:
+        """ The enable method works very much like a command enable function, and returns
+        the same kinds of codes:  LXe_CMD_DISABLED if disabled, LXe_OK for enabled and
+        anything else for a failure code.  The item type and channel name are provided
+        as arguments, allowing the same object to handle multiple different channels.
+        A disable message can be returned as part of the ILxMessageID.  Note that, as
+        with commands, the code stored in the ILxMessageID should also be returned by
+        the enable function.
+        The item argument may be NULL, or may be provided by the caller.  The object
+        can use this for for more specific enable tests.  Note that it is valid for
+        the item to be NULL, in which case a general test should be applied to item
+        type itself.
+
+        Enabled(string channelName,object msg,object item,object chanRead)"""
         ...
 
-    def DependencyByIndex(self, channelName, index):
+    def DependencyCount(self, channelName: str) -> int:
+        """ item.channel needs a way to know what other channels this channel might depend on
+        for its enable state.  The following methods are used to see if a recently changed
+        channel is a dependency of this channel and thus control if this channel is enabled
+        (i.e., available for user interaction) or not (i.e., "ghosted").  If the changed channel
+        is a dependency, then this channel's UI representation is told to update it's
+        "enabled" state with that returned by the Enabled() method.
+        Note that the dependency mechanism only allows watching channels on the same item.
+        This includes allowing packages to watch for changes to channels on other packages
+        as long as both packages are on the same item.  If you need more flexibility, you'll
+        need to implement your own notifier through the UIHints() method.  The depItemType
+        argument thus indicates a channel in different package on the item, or a supertype
+        of the item itself.
+
+        integer count = DependencyCount(string channelName)"""
+        ...
+
+    def DependencyByIndex(self, channelName: str, index: int) -> Tuple[int, str]:
         """(integer depItemType,string depChannelName) = DependencyByIndex(string channelName,integer index)"""
         ...
 
-    def DependencyByIndexName(self, channelName, index):
-        """(string depItemTypeName,string depChannelName) = DependencyByIndexName(string channelName,integer index)"""
+    def DependencyByIndexName(self, channelName: str, index: int) -> Tuple[str, str]:
+        """ This variation is more robust, taking an item type as a string instead of an integer
+        code.  This works well for packages, which do not support type codes.  Clients only
+        need to implement one of those, although DependencyByIndexName() is preferred.
+
+        (string depItemTypeName,string depChannelName) = DependencyByIndexName(string channelName,integer index)"""
         ...
 
-    def DependencyCount(self, channelName):
-        """integer count = DependencyCount(string channelName)"""
+    def Cookie(self, channelName: str, requestedFor: str) -> str:
+        """string cookie = Cookie(string channelName,string requestedFor)"""
         ...
 
-    def Enabled(self, channelName, msg, item, chanRead):
-        """Enabled(string channelName,object msg,object item,object chanRead)"""
-        ...
-
-    def ItemEnabled(self, msg, item):
+    def ItemEnabled(self, msg: Unknown, item: Unknown):
         """ItemEnabled(object msg,object item)"""
         ...
 
-    def ItemIcon(self, item):
+    def ItemIcon(self, item: Unknown) -> str:
         """string icon = ItemIcon(object item)"""
         ...
 
-    def UIHints(self, channelName, hints):
+    def UIHints(self, channelName: str, hints: Unknown):
         """UIHints(string channelName,object hints)"""
         ...
 
-    def UIValueHints(self, channelName):
+    def UIValueHints(self, channelName: str) -> Unknown:
         """UIValueHints object = UIValueHints(string channelName)"""
         ...
 
