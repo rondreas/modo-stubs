@@ -15245,16 +15245,31 @@ class View(object):
         """(vector ax,vector ay,vector az) = ScreenNormals(vector pos)"""
         ...
 
-    def ToModel(self, x, y, snap):
-        """vector pos = ToModel(integer x,integer y,integer snap)"""
+    def ToScreen(self, pos: vector) -> Tuple[int, float, float]:
+        """ This method takes a 3D model coordinate as input and returns the X and
+        Y screen position relative to the pane.  The first top-left pixel on the
+        GL pane is (0, 0).  It returns false if the point is not visible in the
+        viewport.
+
+        (integer,float x,float y) = ToScreen(vector pos)"""
         ...
 
-    def ToScreen(self, pos):
-        """(integer,float x,float y) = ToScreen(vector pos)"""
+    def ToScreen3(self, pos: vector) -> Tuple[int, vector]:
+        """ Another form can compute 3D screen coordinates, where Z is the view-depth
+        which increases as the point moves behind other points.
+        
+        (integer,vector vp) = ToScreen3(vector pos)"""
         ...
 
-    def ToScreen3(self, pos):
-        """(integer,vector vp) = ToScreen3(vector pos)"""
+    def ToModel(self, x: int, y: int, snap: int) -> vector:
+        """ This method does the reverse, taking a screen position and returning
+        the 3D model coordinate under it.  Since the model vector is
+        underdetermined, the vector returned is the one model-space position
+        at that point on the screen that is closest to the initial value of the
+        vector.  If 'snap' is true, then the return value will be snapped to the
+        nearest nice location given by the grid snap for the view.
+        
+        vector pos = ToModel(integer x,integer y,integer snap)"""
         ...
 
     def Type(self):
