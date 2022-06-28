@@ -1854,6 +1854,208 @@ class Command(object):
     def __init__(self, *args, **kwargs):
         ...
 
+    def Tag(self) -> int:
+        """ This returns a command's tag.  This function is implemented by the command
+        system and does not need to be provided by the command itself.
+
+        integer tag = Tag()
+
+        """
+        ...
+
+    """ These functions return the name, username, button name, description,
+    tooltip and example associated with an entry in the config.  Name always
+    returns the internal name of the command.  The other functions will
+    return either a string from the message table, or possibly a dynamic string
+    provided by the command based on its current arguments and environment,
+    falling back to the message table and possibly other reasonable defaults if
+    the method fails or is NULL.
+
+    lxcommand.h
+
+    """
+
+    def Name(self) -> str:
+        """ Returns the internal name of the command
+
+        string name = Name() 
+
+        """
+        ...
+
+    def UserName(self) -> str:
+        """ Returns user name for the command, either through message table or
+        as a dynamic string
+
+        string userName = UserName()
+
+        """
+        ...
+
+    def ButtonName(self) -> str:
+        """
+
+        string buttonName = ButtonName()
+
+        """
+        ...
+
+    def Desc(self) -> str:
+        """
+
+        string desc = Desc()
+
+        """
+        ...
+
+    def Tooltip(self) -> str:
+        """
+
+        string tooltip = Tooltip()
+
+        """
+        ...
+
+    def Help(self) -> str:
+        """ The help method returns a key, which in turn is resolved into a URL from the
+        HelpURL part of the config.
+
+        string help = Help()
+
+        """
+        ...
+
+    def Example(self) -> str:
+        """ Commands can also return an example string.
+
+        string example = Example()"""
+        ...
+
+    def Icon(self) -> str:
+        """ The icon name can also be obtained, which may be read directly from
+        cmdhelp.cfg or dynamically specified by the command's current arguments.
+        Note that this is the raw icon name without any size information attached.
+        Multiple icons can be specified in the icon name string, but this is not
+        required.  A simple icon string can just be "icon".  For multiple icons,
+        the form is "besticon;fallbackicon;defaulticon".  There can be any number of
+        icons, the first in the list will be tried, followed by the next, and so on
+        until one matches at the size requested. If the icon name contains a
+        semicolon, two semicolons can be used instead.
+
+        string iconNames = Icon()
+
+        """
+        ...
+
+    def Flags(self) -> int:
+        """ It is possible to for the command to use the value of its arguments during
+        the flags method. However, it is important to handle cases where the
+        arguments have no value, even if they are required arguments. This can
+        happen when the prototype command is created, in which case no arguments
+        have yet been set. In these cases, the client should just return default
+        flags without relying on the command's arguments
+
+        integer flags = Flags()
+
+        """
+        ...
+
+    def PostExecFlags(self) -> int:
+        """ Also available are "post-execution" flags.  The original flags assigned
+        to a command may change after a pending command has fired. For example,
+        an undoable command firing non-undoable commands would itself become
+        non-undoable.  Post-fire flags are only available after a command has
+        been fired; if this hasn't yet occured, LXe_CMD_NOT_AVAILABLE is returned.
+        This function is provided by the command system and does not need to be
+        specified by commands themselves.
+
+        integer flags = PostExecFlags()
+
+        """
+        ...
+
+    def PostExecBehaviorFlags(self) -> int:
+        """ The exuection flags are also available.  These are the flags that were
+        passed to the Execute() method, and include the LXfCMD_EXEC_ and
+        LXfCMD_ALERT_ flags.  These are only valid after the command has been
+        executed.
+
+        integer flags = PostExecBehaviorFlags()
+
+        """
+        ...
+
+    def SandboxGUID(self) -> str:
+        """ Certain commands can only be executed within specific sandboxes. If this method
+        returns LXe_CMD_SANDBOX_GLOBAL, then the command operates in the global sandbox.
+        LXeCMD_OK means that only a sandbox containing an object with the specific GUID
+        returned is supported. Sandboxed commands can NOT be undoable.
+
+        string guid = SandboxGUID()
+
+        """
+        ...
+
+    def Message(self) -> Message:
+        """ Each command contains an ILxMessage object. This can be obtained through the
+        following method.  This object is used for by the Execute() method and others
+        to report error states. The client must release the message returned by this
+        method. 
+
+        Message object = Message()
+
+        """
+        ...
+
+    def Enable(self, msg: Message):
+        """ A command may be disabled based on the current environment. This function can
+        be called to see if a command is enabled. LXe_CMD_DISABLED will be returned
+        if the command is disabled and the message string will be set to a user-readable
+        string describing the condition. This simply checks to see if the command itself
+        could be fired, it does not check to see if the arguments are set and valid.
+        There is an alternate disabled state, LXe_CMD_NOT_AVAILABLE. This should be set
+        if there is no context at all for the command's arguments, not even enough to
+        display a control of the correct type in an attribute sheet (as the dynamic
+        datatypes arguments cannot be resolved). An example is the item.channel command,
+        which requires an item selection so it can infer the type of channel, without that
+        selection, it cannot guess what kind of control to display. LXe_CMD_DISABLED
+        should be used when the argument parsing and dynamic datatypes can still be set,
+        but there is no context for the command to execute in.
+
+        In general, the return code should match the code set in the ILxMessage object.
+
+        >>> command_service = lx.service.Command()
+        >>> _, _, command = command_service.SpawnFromString("item.delete")
+        >>> message_service = lx.service.Message()
+        >>> message = message_service.Allocate()
+        >>> command.Enable(message)  # checking without selection
+        Traceback (most recent call last):
+          File "<string>", line 7, in <module>
+        RuntimeError: bad result: CMD_DISABLED
+        >>> import lxu
+        >>> lxu.select.ItemSelection().select("Mesh")  # select the item called "Mesh"
+        >>> command.Enable(message)  # does not raise an exception as the command is enabled
+
+        Enable(object msg)
+
+        """
+        ...
+
+    def ContainedEnable(self):
+        """ Commands in containers should provide a contained enable function.  This is called
+        by the container to see if the command can be executed.  The ID_NULL-terminated
+        types array should tested be with SelTopmostType() to ensure that they are
+        the topmost type in the container.
+
+        integer types = ContainedEnable()
+
+        """
+        ...
+
+    def Interact(self):
+        """Interact()"""
+        ...
+
     def ArgClear(self, index):
         """ArgClear(integer index)"""
         ...
@@ -1910,20 +2112,8 @@ class Command(object):
         """string userName = ArgUserName(integer index)"""
         ...
 
-    def ButtonName(self):
-        """string buttonName = ButtonName()"""
-        ...
-
-    def ContainedEnable(self):
-        """integer types = ContainedEnable()"""
-        ...
-
     def Copy(self, sourceCommand):
         """Copy(object sourceCommand)"""
-        ...
-
-    def Desc(self):
-        """string desc = Desc()"""
         ...
 
     def DialogArgChange(self, arg):
@@ -1938,44 +2128,12 @@ class Command(object):
         """DialogInit()"""
         ...
 
-    def Enable(self, msg):
-        """Enable(object msg)"""
-        ...
-
-    def Example(self):
-        """string example = Example()"""
-        ...
-
     def Execute(self, flags):
         """Execute(integer flags)"""
         ...
 
-    def Flags(self):
-        """integer flags = Flags()"""
-        ...
-
-    def Help(self):
-        """string help = Help()"""
-        ...
-
-    def Icon(self):
-        """string iconNames = Icon()"""
-        ...
-
     def IconImage(self, w, h):
         """Image object = IconImage(integer w,integer h)"""
-        ...
-
-    def Interact(self):
-        """Interact()"""
-        ...
-
-    def Message(self):
-        """Message object = Message()"""
-        ...
-
-    def Name(self):
-        """string name = Name()"""
         ...
 
     def NotifyAddClient(self, argument, object):
@@ -1984,14 +2142,6 @@ class Command(object):
 
     def NotifyRemoveClient(self, object):
         """NotifyRemoveClient(object object)"""
-        ...
-
-    def PostExecBehaviorFlags(self):
-        """integer flags = PostExecBehaviorFlags()"""
-        ...
-
-    def PostExecFlags(self):
-        """integer flags = PostExecFlags()"""
         ...
 
     def PostExecHints(self):
@@ -2006,24 +2156,8 @@ class Command(object):
         """Query(integer index,object vaQuery)"""
         ...
 
-    def SandboxGUID(self):
-        """string guid = SandboxGUID()"""
-        ...
-
-    def Tag(self):
-        """integer tag = Tag()"""
-        ...
-
     def ToggleArg(self):
         """(integer index,Value object,integer typeID,string typeName) = ToggleArg()"""
-        ...
-
-    def Tooltip(self):
-        """string tooltip = Tooltip()"""
-        ...
-
-    def UserName(self):
-        """string userName = UserName()"""
         ...
 
     def set(self, source: object) -> bool:
