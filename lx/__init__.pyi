@@ -54,7 +54,7 @@ def args() -> tuple:
     ...
 
 
-def bless(cls: type, name: str, tags: Optional[dict], meta: Optional[Any]):
+def bless(cls: type, name: str, tags: Optional[dict] = None, meta: Optional[Any] = None):
     """ Export a class as a server object:
 
         lx.bless(cls, name, [tags, meta])
