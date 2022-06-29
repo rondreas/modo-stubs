@@ -4802,15 +4802,15 @@ class HandleDraw(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def AxisHandle(self, pos, mat, axis, part, len, flags):
+    def AxisHandle(self, pos: vector, mat: vector, axis: int, part: int, len: float, flags: int):
         """AxisHandle(vector pos,matrix mat,integer axis,integer part,float len,integer flags)"""
         ...
 
-    def CrossHandle(self, pos, mat, part, flags):
+    def CrossHandle(self, pos: vector, mat: matrix, part: int, flags: int):
         """CrossHandle(vector pos,matrix mat,integer part,integer flags)"""
         ...
 
-    def Handle(self, pos, mat, part, flags):
+    def Handle(self, pos: vector, mat: matrix, part: int, flags: int):
         """Handle(vector pos,matrix mat,integer part,integer flags)"""
         ...
 
@@ -4818,8 +4818,10 @@ class HandleDraw(object):
         """LineHandleHilight(vector pos,vector dir,integer part,integer flags)"""
         ...
 
-    def MoveHandle(self, pos, mat, axis, part, flags):
-        """MoveHandle(vector pos,matrix mat,integer axis,integer part,integer flags)"""
+    def MoveHandle(self, pos: vector, mat: matrix, axis: int, part: int, flags: int):
+        """ This method draws axis arrows to indicate the direction of the handle constraint. The length of the arrow is determined by user settings for handle size and the color by the axis it represents.
+
+        MoveHandle(vector pos,matrix mat,integer axis,integer part,integer flags)"""
         ...
 
     def PlaneHandle(self, pos, mat, axis, part, flags):
