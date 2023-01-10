@@ -14070,6 +14070,27 @@ class TriangleSurface(object):
 
 
 class UIHints(object):
+    """ It is not uncommon to want to use another command as the base for your 
+    own filter command's priority. 
+
+    For example, the item.withTypeIsSelected command is used in for the
+    Item Properties forms. In that case you could use 
+    lx.service.Command.SpawnFromString() to get an lx.object.Command, then call
+    lx.service.Command.AllocateUIHintsFromCommand() to get its hints.  
+
+    You can then use the lx.object.UIHintsRead interface on the returned object
+    to call FormFilterPriority(), using that as the basis for the new priority
+    in your hints. 
+
+    You can also modify those hints and return them directly from your own 
+    command. 
+
+    .. Note ::
+
+        Above instructions does not work in Python.
+
+    """
+
     def __init__(self, *args, **kwargs):
         ...
 
