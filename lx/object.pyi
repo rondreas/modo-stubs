@@ -1985,6 +1985,10 @@ class Command(object):
         """
         ...
 
+    def PostExecHints(self):
+        """integer hints = PostExecHints()"""
+        ...
+
     def SandboxGUID(self) -> str:
         """ Certain commands can only be executed within specific sandboxes. If this method
         returns LXe_CMD_SANDBOX_GLOBAL, then the command operates in the global sandbox.
@@ -2053,39 +2057,92 @@ class Command(object):
         ...
 
     def Interact(self):
-        """Interact()"""
+        """ Just before the command executes, the Interact() method is called. This can
+        be used to open file and confirmation dialogs so the user can confirm that
+        they want to perform the operation. This is particularly useful for MODEL
+        commands, since as soon as the Execute() method is called the undo stack
+        is discarded; by opening dialogs from Interact(), the undo stack is preserved
+        if the user chooses to abort.
+
+        The Interact() method does not return an error code.  Instead, the ILxMessageID
+        of the command is used just like it is in the Execute() method.  If the code is
+        anything besides LXe_OK(), the execute method is not called.
+
+        This method is not called if LXxCMD_IS_USER_INTERACTION_OK() would fail.  This
+        allows the user to suppress any dialogs that might have been opened, including
+        confirmation and file dialogs.  Commands should perform default behaviors if
+        this occurs.
+
+        Interact()
+
+        """
         ...
 
-    def ArgClear(self, index):
-        """ArgClear(integer index)"""
+    def PreExecute(self):
+        """ We have one final test before Execute() is called. The PreExecute() method
+        can be used to verify that the command state is set in such a way that it
+        can still execute. This is most useful if the command requires a filename,
+        but the Interact() method was suppressed by the user, and the filename
+        argument was not set. Rather than have a MODEL command fail and clear the
+        undo stack, it instead can do a final test to ensure the appropriate
+        arguments are set. Again, no LxResult code is returned; instead, the
+        ILxMessageID that is part of the command itself is used to provide errors.
+
+        The user should only be presented with dialogs or questions if
+        LXxCMD_IS_USER_INTERACTION_OK() is true; otherwise, the command should handle
+        the case quietly.
+        Note that these flags are used by the command system itself, but are passed
+        on to the command for its own benefit.  Direct action should not be taken
+        by the command based on these flags, and they can be safely ignored.
+
+        PreExecute()
+
+        """
         ...
 
-    def ArgDesc(self, index):
-        """string desc = ArgDesc(integer index)"""
+    def Execute(self, flags: int):
+        """ 
+
+        Execute(integer flags)
+
+        """
         ...
 
-    def ArgEnable(self, arg):
-        """ArgEnable(integer arg)"""
+    def ToggleArg(self) -> (int, Value, int, str):
+        """ Toggle commands have a single argument that can have one of many possible
+        but mutually exclusive states (for example, only one tool can be activate
+        at a time).  When inserted into an attribute sheet, a toggle button is created
+        that switches between an "off" state and the "on" state assigned to that arg
+        in the sheet definition.  When one of these buttons is activated, other
+        buttons using the same command but different "on" states are automatically
+        turned off.  tool.set is an example of a command that does this, creating
+        toggle buttons in attribute sheets that determined the currently active tool.
+        Note that when attrs sets up the UI for a toggle arg command, if the toggle
+        arg is optional and has no value, the command will be created as a simple
+        button, not a toggle command.
+
+        The command stores the "off" state in its definition, as well as the index
+        of the toggle argument and its ExoType as either (or both) an ID and name.
+        This method can retrieve any or all of these states.  The index, value, typeID
+        or typeName can be NULL if desired, in which case only the non-NULL arguments
+        will be set.  Note that the ppvObj value argument should be considered read-only, as
+        it is owned by the command.  However, the ILxValueID returned must be released
+        through XObjectRelease() by the client.
+
+        If no arguments are set for toggling in this manner, LXe_CMD_NOT_AVAILABLE is
+        returned.
+
+        (integer index,Value object,integer typeID,string typeName) = ToggleArg()
+
+        """
         ...
 
-    def ArgExample(self, index):
-        """string example = ArgExample(integer index)"""
-        ...
-
-    def ArgFlags(self, index):
+    def ArgFlags(self, index: int) -> int:
         """integer flags = ArgFlags(integer index)"""
         ...
 
-    def ArgOptionDesc(self, index, optIndex):
-        """string desc = ArgOptionDesc(integer index,integer optIndex)"""
-        ...
-
-    def ArgOptionUserName(self, index, optIndex):
-        """string userName = ArgOptionUserName(integer index,integer optIndex)"""
-        ...
-
-    def ArgParseString(self, argIndex, argString):
-        """ArgParseString(integer argIndex,string argString)"""
+    def ArgClear(self, index: int):
+        """ArgClear(integer index)"""
         ...
 
     def ArgResetAll(self):
@@ -2096,68 +2153,177 @@ class Command(object):
         """ArgSetDatatypes()"""
         ...
 
-    def ArgType(self, index):
-        """string type = ArgType(integer index)"""
-        ...
-
-    def ArgTypeDesc(self, index):
-        """string desc = ArgTypeDesc(integer index)"""
-        ...
-
-    def ArgTypeUserName(self, index):
-        """string userName = ArgTypeUserName(integer index)"""
-        ...
-
-    def ArgUserName(self, index):
+    def ArgUserName(self, index: int) -> str:
         """string userName = ArgUserName(integer index)"""
         ...
 
-    def Copy(self, sourceCommand):
-        """Copy(object sourceCommand)"""
+    def ArgDesc(self, index: int) -> str:
+        """string desc = ArgDesc(integer index)"""
         ...
 
-    def DialogArgChange(self, arg):
-        """DialogArgChange(integer arg)"""
+    def ArgExample(self, index: int) -> str:
+        """string example = ArgExample(integer index)"""
         ...
 
-    def DialogFormatting(self):
-        """string formatting = DialogFormatting()"""
+    def ArgType(self, index: int) -> str:
+        """string type = ArgType(integer index)"""
+        ...
+
+    def ArgTypeUserName(self, index: int) -> str:
+        """string userName = ArgTypeUserName(integer index)"""
+        ...
+
+    def ArgTypeDesc(self, index: int) -> str:
+        """string desc = ArgTypeDesc(integer index)"""
+        ...
+
+    def ArgOptionUserName(self, index: int, optIndex: int) -> str:
+        """ The individual options in the argument type (such as popup entries) can also
+        be listed.  The username method will always return a valid string, falling
+        back to the internal name if no username can be found.  index is the index
+        of the argument, while optIndex is the index of the option in the
+        LXtTextValueHint array.
+
+        string userName = ArgOptionUserName(integer index,integer optIndex)
+
+        """
+        ...
+
+    def ArgOptionDesc(self, index: int, optIndex: int) -> str:
+        """string desc = ArgOptionDesc(integer index,integer optIndex)"""
         ...
 
     def DialogInit(self):
-        """DialogInit()"""
+        """ If all required arguments of a command aren't set by the user when it is executed, a
+        dialog is opened to ask for those values.  This method is called to allow the dialog
+        to set the values of any of its arguments after the last used dialog values and
+        any queried values have been plugged in.  Note that some or none of arguments may
+        have values when this method is called.
+
+        DialogInit()
+
+        """
         ...
 
-    def Execute(self, flags):
-        """Execute(integer flags)"""
+    def DialogArgChange(self, arg: int):
+        """ This method is called by command dialogs and similar entities to let the command
+        know that one of its arguments has been changed by the user.  It allows the
+        command to change the value of any of its arguments to provide more useful default
+        values based on system state or the set values of other arguments.  For example,
+        the poly.subdivide command has a different default "Max Smoothing Angles "depending
+        on what the mode argument is set to.
+
+        Note that the flag LXfCMDARG_CHANGED should be set on arguments whos values have
+        been modified by the change function, and the LXfCMDARG_VALUE_SET flag should be
+        unset (since the changed value is presumably a default of some sort).  The CHANGED
+        flag lets the command system know that it should use the current argument value,
+        while unsetting VALUE_SET tells the command system to not include that value in
+        the output string in the command history.
+
+        DialogArgChange(integer arg)"""
         ...
 
-    def IconImage(self, w, h):
-        """Image object = IconImage(integer w,integer h)"""
+    def ArgEnable(self, arg: int):
+        """ Dialogs will often call this method to see if a control within should be enabled
+        or disabled.  An example is that the Max Smoothing Angle control in the poly.subdivide
+        command should be disabled when in Faceted mode.  Return LXe_OK if enabled or
+        LXe_CMD_DISABLED if disabled.
+
+        ArgEnable(integer arg)"""
         ...
 
-    def NotifyAddClient(self, argument, object):
-        """NotifyAddClient(integer argument,object object)"""
+    def ArgParseString(self, argIndex: int, argString: str):
+        """ Normally, the command system automatically parses arguments for each command.
+        However, commands are also given an opportunity to manually parse the arguments
+        themselves.  This method is called for each argument just before its value is
+        parsed out of the command line.  If the method handles all argument parsing, it
+        should return LXe_OK and set its own value.  If it wants the command system to
+        parse the argument, this should return LXe_NOTIMPL.
+        
+        It is important to note that this function is called only when the arguments
+        are parsed as a string; directly setting the argument values via the
+        ILxAttributes interface will not call this function as the arguments are already
+        in in their intrinsic forms and never presented as strings.
+
+        ArgParseString(integer argIndex,string argString)
+
+        """
         ...
 
-    def NotifyRemoveClient(self, object):
-        """NotifyRemoveClient(object object)"""
+    def Copy(self, sourceCommand: Unknown):
+        """ To create a new duplicate of a command, use the command system global's
+        SpawnFromCommand() method.
+
+        Copy(object sourceCommand)
+
+        """
         ...
 
-    def PostExecHints(self):
-        """integer hints = PostExecHints()"""
+    def Query(self, index: int, vaQuery: Unknown):
+        """ Querying is done through this function. An ILxValueArray interface is provided to
+        the command, which is filled in with as many values as the current argument may
+        represent in the current environment.  This is the main way that clients can
+        ask commands about their VALUE argument's default states.  The values in the
+        ILxQuery will have the same datatype as the argument being queried.
+
+        Query(integer index,object vaQuery)
+
+        """
         ...
 
-    def PreExecute(self):
-        """PreExecute()"""
+    def NotifyAddClient(self, argument: int, object: Unknown):
+        """ Commands need to communicate with clients, such as the attribute system, when
+        their data needs to be refreshed in the user interface.  The client calls this
+        method to let the command know that it wants to be notified when it needs to
+        be updated.
+
+        Normally, a client asks specifically for the notifier associated with a single
+        argument of a command (say, because it's displaying a UI for the queried value
+        of that argument), so the client needs to specify which argument they would like
+        additional notifiers from.  If the argument index is -1, then only the notifers
+        defined by the entire command will be added.
+
+        Clients rarely have to implement this method themselves, but can if they want to.
+        If not implemented, adding and removing clients is handled automatically by
+        calling the command's ILxUIValueHInts::NotifierCount() and NOtifierByIndex()
+        methods.
+
+        NotifyAddClient(integer argument,object object)
+
+        """
         ...
 
-    def Query(self, index, vaQuery):
-        """Query(integer index,object vaQuery)"""
+    def NotifyRemoveClient(self, object: Unknown):
+        """ When a client no longer needs to listen for notifications, it calls this method.
+        Clients should be automatically removed from the queue when the command object
+        is released as well.
+
+        NotifyRemoveClient(object object)
+
+        """
         ...
 
-    def ToggleArg(self):
-        """(integer index,Value object,integer typeID,string typeName) = ToggleArg()"""
+    def DialogFormatting(self) -> str:
+        """ Any argument not included in the string will be omitted from the dialog.  This can be
+        used as an alternative to the HIDDEN argument flag.  The command dialog will not open
+        if all arguments are hidden, and the command will simply fail.
+
+        string formatting = DialogFormatting()"""
+        ...
+
+    def IconImage(self, w: int, h: int) -> Image:
+        """ This alternative to the Icon() method allows a command to return a dynamically-defined
+        image. This is rarely used, as the config-based Icon() method is preferable in most cases.
+        The image returned must be of the w and h provided; if not, the image will simply be
+        discarded and ignored. In general, this method is called before calling Icon(), with Icon()
+        being used if IconImage() is not implemented.
+
+        Note that as of 801, this is only supported on simple buttons in Form Views, and
+        is not used for popups, ToolChoices, pie menus, or any other kind of control.
+
+        Image object = IconImage(integer w,integer h)
+
+        """
         ...
 
     def set(self, source: object) -> bool:
