@@ -2822,56 +2822,122 @@ class Undo(object):
         ...
 
 
-
 class Value(object):
-    def ConvertValues(self, from_str, to_str):
-        """ValueConversion object = ConvertValues(string from_str,string to_str)"""
+    def ScriptQuery(self) -> lx.object.Unknown:
+        """ Gets the ILxScriptQueryID interface for the system.
+
+        Unknown object = ScriptQuery()
+
+        """
         ...
 
-    def CreateValue(self, type):
-        """Value object = CreateValue(string type)"""
+    def TextHintEncode(self, value: int, hint: lx.object.UIHints) -> str:
+        """ This encodes a numeric value as a string.  If the 'buf' pointer is null, then
+        a rolling buffer will be allocated and returned.  If the hint pointer is null
+        then the value is written as a plain signed integer.
+
+        This will return LXe_OK_INEXACT_MATCH when an integer is provided that does
+        not exactly map to one of the choices.  This is only returned if there are
+        choices.  LXe_OK_NO_CHOICES is returned if there are no choices at all.
+        In both cases, the raw integer is encoded into the string buffer.  Both
+        codes are "OK" codes, and do not signify an error, but rather provide hints
+        about the content of the encoded string, and may help instruct an code path
+        if you do need an exact match or were expecting choices.
+
+        string = TextHintEncode(integer value, hints hint)
+
+        """
         ...
 
-    def FloatType(self, val):
-        """integer = FloatType(float val)"""
+    def TextHintDecode(self, buf: str, hint: lx.object.UIHints) -> int:
+        """ This method decodes a string using the hint array.  If the string is a
+        number it will be returned directly after being clamped to min or max limits.
+        If nothing is recognized then the function end-of-list will be returned.
+        This will return LXe_NOTFOUND when the string does not exactly match any
+        text hints and cannot be converted into an integer (i.e., it doesn't start
+        with a number).  LXe_OK_NO_CHOICES is returned when the string was
+        sucessfully converted from a number into an integer and may have been
+        constrained to any min/max hints present, but the hints contain no actual
+        choices.  This may occur in the case of a hints array that is used only for
+        min/max or similar properties, and is not meant to have a list of choices.
+
+        integer value = TextHintDecode(string buf, hints hint)
+
+        """
         ...
 
-    def FrameToTime(self, frame):
-        """float = FrameToTime(float frame)"""
+    def CreateValue(self, type: str) -> lx.object.Value:
+        """ This method creates a new value object of the given type.
+
+        Value object = CreateValue(string type)
+
+        """
         ...
 
-    def FrameToTimeFPS(self, frame, fps):
-        """float = FrameToTimeFPS(float frame,float fps)"""
+    def ValueType(self, type: str) -> int:
+        """ This gets the intrinsic type for a given value type, as one of the LXi_TYPE_* choices.
+
+        integer valType = ValueType(string type)
+
+        """
         ...
 
-    def GetFPS(self):
-        """float = GetFPS()"""
+    def FloatType(self, val: float) -> int:
+        """ Check a float for NaN or infinity. A zero return value is OK.
+
+        integer = FloatType(float val)
+
+        """
         ...
 
-    def ScriptQuery(self):
-        """Unknown object = ScriptQuery()"""
+    def GetFPS(self) -> float:
+        """ Returns the global Frames Per Second.
+
+        float = GetFPS()
+
+        """
         ...
 
-    def TextHintDecode(self, buf, hint):
-        """integer value = TextHintDecode(string buf,hints hint)"""
+    def TimeToFrame(self, time: float) -> float:
+        """ Given a time and using the global Frames Per Second, returns an equivalent frame.
+
+        float = TimeToFrame(float time)
+
+        """
         ...
 
-    def TextHintEncode(self, value, hint):
-        """string = TextHintEncode(integer value,hints hint)"""
+    def FrameToTime(self, frame: float) -> float:
+        """ Given a frame and using the global Frames Per Second, returns an equivalent time.
+
+        float = FrameToTime(float frame)
+
+        """
         ...
 
-    def TimeToFrame(self, time):
-        """float = TimeToFrame(float time)"""
+    def TimeToFrameFPS(self, time: float, fps: float) -> float:
+        """ Given a time and a Frames Per Second, returns an equivalent frame.
+
+        float = TimeToFrameFPS(float time,float fps)
+
+        """
         ...
 
-    def TimeToFrameFPS(self, time, fps):
-        """float = TimeToFrameFPS(float time,float fps)"""
+    def FrameToTimeFPS(self, frame: float, fps: float):
+        """ Given a frame and a Frames Per Second, returns an equivalent time.
+
+        float = FrameToTimeFPS(float frame,float fps)
+
+        """
         ...
 
-    def ValueType(self, type):
-        """integer valType = ValueType(string type)"""
-        ...
+    def ConvertValues(self, from_str: str, to_str: str) -> lx.object.Unknown:
+        """ Given two different value type names, returns an ILxValueConversion 
+        object that can be used to convert from one type to the other.
 
+        ValueConversion object = ConvertValues(string from_str,string to_str)
+
+        """
+        ...
 
 
 class ValueHUD(object):
