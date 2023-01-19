@@ -3034,8 +3034,12 @@ class View3Dport(object):
         """integer = InvalidateOverrider(object scene,string pkgName)"""
         ...
 
-    def Mouse(self) -> tuple[int, int]:
-        """(integer,integer x,integer y) = Mouse()"""
+    def Mouse(self) -> tuple[int, int, int]:
+        """ Returns the index of the viewport currently under the mouse, or -1 if
+        the mouse is not over a 3D view. The position relative to that view is
+        filled into x and y, if they are not NULL.
+
+        (integer view, integer x, integer y) = Mouse()"""
         ...
 
     def RemoveVirtualModel(self, vmodel: object.Unknown) -> None:
