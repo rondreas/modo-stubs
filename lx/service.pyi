@@ -1192,196 +1192,203 @@ class Interviewer(object):
 
 
 class Layer(object):
-    def Bounds(self, index: int) -> tuple[object.vector, object.vector]:
-        """(vector min,vector max) = Bounds(integer index)"""
+    def ScriptQuery(self):
+        """Unknown object = ScriptQuery()"""
         ...
 
-    def ClearMark(self, item: object.Unknown) -> None:
-        """ClearMark(object item)"""
+    def SetScene(self, scene):
+        """ The layer service functions operate with to a certain scene.  This scene should
+        be specified by the client BEFORE any other methods are used, as an initialization
+        step.  The scene can also be reset at any time, either to a new scene, or to force a refresh
+        of the layer data.
+
+        SetScene(object scene)
+
+        """
+        ...
+
+    def Scene(self) -> object.Unknown:
+        """Scene object = Scene()"""
         ...
 
     def Count(self) -> int:
         """integer count = Count()"""
         ...
 
-    def CurrentDeformer(self, meshItem):
-        """string name = CurrentDeformer(object meshItem)"""
-        ...
-
-    def CurrentMap(self, type):
-        """string name = CurrentMap(integer type)"""
-        ...
-
-    def CurveSmoothAngle(self, index):
-        """float angle = CurveSmoothAngle(integer index)"""
-        ...
-
-    def Flags(self, index):
-        """integer flags = Flags(integer index)"""
-        ...
-
-    def IsProcedural(self, index):
-        """IsProcedural(integer index)"""
-        ...
-
-    def Item(self, index: int) -> object.Item:
-        """Item object = Item(integer index)"""
-        ...
-
-    def ItemLookup(self, mode, item):
-        """integer index = ItemLookup(integer mode,object item)"""
-        ...
-
-    def LayerChild(self, index, childNumber):
-        """integer childIndex = LayerChild(integer index,integer childNumber)"""
-        ...
-
-    def LayerChildCount(self, index):
-        """integer num = LayerChildCount(integer index)"""
-        ...
-
-    def LayerClip(self, index):
-        """Item object = LayerClip(integer index)"""
-        ...
-
-    def LayerClipCount(self):
-        """integer num = LayerClipCount()"""
-        ...
-
-    def LayerEdge(self, mode, index):
-        """Unknown object = LayerEdge(integer mode,integer index)"""
-        ...
-
-    def LayerEdgeCount(self, mode: int) -> int:
-        """integer num = LayerEdgeCount(integer mode)"""
-        ...
-
-    def LayerMaterial(self, index):
-        """Item object = LayerMaterial(integer index)"""
-        ...
-
-    def LayerMaterialCount(self):
-        """integer num = LayerMaterialCount()"""
-        ...
-
-    def LayerParent(self, index):
-        """integer parentIndex = LayerParent(integer index)"""
-        ...
-
-    def LayerPart(self, index):
-        """string part = LayerPart(integer index)"""
-        ...
-
-    def LayerPartCount(self):
-        """integer num = LayerPartCount()"""
-        ...
-
-    def LayerPoly(self, mode, index):
-        """Unknown object = LayerPoly(integer mode,integer index)"""
-        ...
-
-    def LayerPolyCount(self, mode: int) -> int:
-        """integer num = LayerPolyCount(integer mode)"""
-        ...
-
-    def LayerSelSet(self, type: int, index: int) -> str:
-        """string selSet = LayerSelSet(integer type,integer index)"""
-        ...
-
-    def LayerSelSetCount(self, type):
-        """integer num = LayerSelSetCount(integer type)"""
-        ...
-
-    def LayerTagTexture(self, layer, type, tag, index):
-        """Item object = LayerTagTexture(integer layer,integer type,string tag,integer index)"""
-        ...
-
-    def LayerTagTextureCount(self, layer, type, tag):
-        """integer num = LayerTagTextureCount(integer layer,integer type,string tag)"""
-        ...
-
-    def LayerTexture(self, layer, index):
-        """Item object = LayerTexture(integer layer,integer index)"""
-        ...
-
-    def LayerTextureCount(self, layer):
-        """integer num = LayerTextureCount(integer layer)"""
-        ...
-
-    def LayerVMap(self, index):
-        """Unknown object = LayerVMap(integer index)"""
-        ...
-
-    def LayerVMapCount(self):
-        """integer num = LayerVMapCount()"""
-        ...
-
-    def LayerVertex(self, mode, index):
-        """Unknown object = LayerVertex(integer mode,integer index)"""
-        ...
-
-    def LayerVertexCount(self, mode):
-        """integer num = LayerVertexCount(integer mode)"""
-        ...
-
-    def Mesh(self, index):
-        """Mesh object = Mesh(integer index)"""
-        ...
-
-    def Name(self, index):
+    def Name(self, index: int) -> str:
         """string name = Name(integer index)"""
-        ...
-
-    def NameLookup(self, mode, name):
-        """integer index = NameLookup(integer mode,string name)"""
-        ...
-
-    def PatchSubdivision(self, index):
-        """integer level = PatchSubdivision(integer index)"""
-        ...
-
-    def Pivot(self, index):
-        """float pivot = Pivot(integer index)"""
-        ...
-
-    def ScanAllocate(self, flags: int) -> object.LayerScan:
-        """LayerScan object = ScanAllocate(integer flags)"""
-        ...
-
-    def ScanAllocateItem(self, item, flags):
-        """LayerScan object = ScanAllocateItem(object item,integer flags)"""
-        ...
-
-    def Scene(self):
-        """Scene object = Scene()"""
-        ...
-
-    def ScriptQuery(self):
-        """Unknown object = ScriptQuery()"""
-        ...
-
-    def SetMark(self, item):
-        """SetMark(object item)"""
-        ...
-
-    def SetScene(self, scene):
-        """SetScene(object scene)"""
         ...
 
     def Slot(self, index):
         """integer slot = Slot(integer index)"""
         ...
 
+    def Item(self, index: int) -> object.Item:
+        """Item object = Item(integer index)"""
+        ...
+
+    def Mesh(self, index):
+        """Mesh object = Mesh(integer index)"""
+        ...
+
+    def Flags(self, index):
+        """integer flags = Flags(integer index)"""
+        ...
+
+    def Pivot(self, index):
+        """float pivot = Pivot(integer index)"""
+        ...
+
+    def PatchSubdivision(self, index):
+        """integer level = PatchSubdivision(integer index)"""
+        ...
+
+    def Bounds(self, index: int) -> tuple[object.vector, object.vector]:
+        """(vector min,vector max) = Bounds(integer index)"""
+        ...
+
+    def CurveSmoothAngle(self, index):
+        """float angle = CurveSmoothAngle(integer index)"""
+        ...
+
     def SplinePatchSubdivision(self, index):
         """integer level = SplinePatchSubdivision(integer index)"""
+        ...
+
+    def ItemLookup(self, mode, item):
+        """integer index = ItemLookup(integer mode,object item)"""
+        raise NotImplementedError
+
+    def NameLookup(self, mode: int, name: str):
+        """ integer index = NameLookup(integer mode,string name)"""
+        raise NotImplementedError
+
+    def LayerParent(self, index):
+        """integer parentIndex = LayerParent(integer index)"""
+        ...
+
+    def LayerChildCount(self, index):
+        """integer num = LayerChildCount(integer index)"""
+        ...
+
+    def LayerChild(self, index, childNumber):
+        """integer childIndex = LayerChild(integer index,integer childNumber)"""
+        ...
+
+    def LayerVMapCount(self):
+        """integer num = LayerVMapCount()"""
+        ...
+
+    def LayerVMap(self, index):
+        """Unknown object = LayerVMap(integer index)"""
+        ...
+
+    def LayerClipCount(self):
+        """integer num = LayerClipCount()"""
+        ...
+
+    def LayerClip(self, index):
+        """Item object = LayerClip(integer index)"""
+        ...
+
+    def LayerMaterialCount(self):
+        """integer num = LayerMaterialCount()"""
+        ...
+
+    def LayerMaterial(self, index):
+        """Item object = LayerMaterial(integer index)"""
+        ...
+
+    def LayerPartCount(self):
+        """integer num = LayerPartCount()"""
+        ...
+
+    def LayerPart(self, index):
+        """string part = LayerPart(integer index)"""
+        ...
+
+    def LayerSelSetCount(self, type):
+        """integer num = LayerSelSetCount(integer type)"""
+        ...
+
+    def LayerSelSet(self, type: int, index: int) -> str:
+        """string selSet = LayerSelSet(integer type,integer index)"""
+        ...
+
+    def LayerTextureCount(self, layer):
+        """integer num = LayerTextureCount(integer layer)"""
+        ...
+
+    def LayerTexture(self, layer, index):
+        """Item object = LayerTexture(integer layer,integer index)"""
+        ...
+
+    def LayerTagTextureCount(self, layer, type, tag):
+        """integer num = LayerTagTextureCount(integer layer,integer type,string tag)"""
+        ...
+
+    def LayerTagTexture(self, layer, type, tag, index):
+        """Item object = LayerTagTexture(integer layer,integer type,string tag,integer index)"""
+        ...
+
+    def LayerVertexCount(self, mode):
+        """integer num = LayerVertexCount(integer mode)"""
+        ...
+
+    def LayerVertex(self, mode, index):
+        """Unknown object = LayerVertex(integer mode,integer index)"""
+        ...
+
+    def LayerPolyCount(self, mode: int) -> int:
+        """integer num = LayerPolyCount(integer mode)"""
+        raise NotImplementedError
+
+    def LayerPoly(self, mode, index):
+        """Unknown object = LayerPoly(integer mode,integer index)"""
+        ...
+
+    def LayerEdgeCount(self, mode: int) -> int:
+        """integer num = LayerEdgeCount(integer mode)"""
+        ...
+
+    def LayerEdge(self, mode, index):
+        """Unknown object = LayerEdge(integer mode,integer index)"""
+        ...
+
+    def ScanAllocate(self, flags: int) -> object.LayerScan:
+        """LayerScan object = ScanAllocate(integer flags)"""
+        ...
+
+    def CurrentMap(self, type):
+        """string name = CurrentMap(integer type)"""
+        ...
+
+    def XfrmAllocate(self, toolVec):
+        """TransformScan object = XfrmAllocate(object toolVec)"""
+        ...
+
+    def ScanAllocateItem(self, item, flags):
+        """LayerScan object = ScanAllocateItem(object item,integer flags)"""
+        ...
+
+    def IsProcedural(self, index):
+        """IsProcedural(integer index)"""
+        ...
+
+    def SetMark(self, item):
+        """SetMark(object item)"""
+        ...
+
+    def ClearMark(self, item: object.Unknown) -> None:
+        """ClearMark(object item)"""
         ...
 
     def TestMark(self, item):
         """integer = TestMark(object item)"""
         ...
 
-    def XfrmAllocate(self, toolVec):
-        """TransformScan object = XfrmAllocate(object toolVec)"""
+    def CurrentDeformer(self, meshItem):
+        """string name = CurrentDeformer(object meshItem)"""
         ...
 
 
