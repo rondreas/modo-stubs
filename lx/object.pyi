@@ -1201,8 +1201,10 @@ class ChannelModSetup(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def AddChannel(self, name, flags):
-        """AddChannel(string name,integer flags)"""
+    def AddChannel(self, name: str, flags: int):
+        """ Assign a channel as part of the modifier operation, can only be used from the Define() method.
+        
+        AddChannel(string name,integer flags)"""
         ...
 
     def AddTime(self):
@@ -9450,8 +9452,16 @@ class Polygon(object):
         """ClearTriangles()"""
         ...
 
-    def Closest(self, maxDist, pos):
-        """(boolean,vector hitPos,vector hitNorm,float hitDist) = Closest(float maxDist,vector pos)"""
+    def Closest(self, maxDist: float, pos: vector) -> Tuple[bool, vector, vector, float]:
+        """ This method finds the closest polygon from the given position. If it finds a polygon,
+        it sets the current polygon, the hit position, the distance to the hit position and
+        the surface normal, and returns LXe_TRUE. It returns LXe_FALSE if there are no polygons.
+        If 'maxDist' is set, the method finds polygons in the radius given by 'maxDist' from
+        the given position.
+
+        (boolean,vector hitPos,vector hitNorm,float hitDist) = Closest(float maxDist,vector pos)
+
+        """
         ...
 
     def EdgeIndex(self, edgeID):
@@ -9515,7 +9525,14 @@ class Polygon(object):
         ...
 
     def IntersectRay(self, pos, dir):
-        """(boolean,vector hitNorm,float hitDist) = IntersectRay(vector pos,vector dir)"""
+        """ This method traces a ray with a given start position and direction (normalized).
+        If the ray intersects a polygon it sets the current polygon, sets the distance to
+        the hit point and the surface normal, and returns LXe_TRUE. It returns LXe_FALSE
+        if there are no polygons in the path of the ray.
+
+        (boolean,vector hitNorm,float hitDist) = IntersectRay(vector pos,vector dir)
+
+        """
         ...
 
     def IsBorder(self):
@@ -11519,71 +11536,88 @@ class SchematicNode(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def AbsoluteSize(self):
+    def Group(self) -> Item:
+        """ This returns the group item that the node belongs to.
+
+        Item object = Group()"""
+        ...
+
+    def Item(self) -> Item:
+        """ This returns the item that the node represents.
+
+        Item object = Item()"""
+        ...
+
+    def AddChannel(self, index: int):
+        """ This function adds a channel to a schematic node. The index provided should be the index
+        of the channel on the item this node represents. If the channel already exists on another
+        node, it will be moved.
+
+        AddChannel(integer index)"""
+        ...
+
+    def RemoveChannel(self, index: int):
+        """ Removes a channel from a schematic node. The index provided should be the index of the
+        channel on the item this node represents.
+
+        RemoveChannel(integer index)"""
+        ...
+
+    def AbsoluteSize(self) -> (float, float):
         """(float width,float height) = AbsoluteSize()"""
         ...
 
-    def AddChannel(self, index):
-        """AddChannel(integer index)"""
+    def ChannelByIndex(self, index: int, type: int) -> SchematicNodeChannel:
+        """ This function returns a SchematicNodeChannel object representing a specific channel by
+        index. The type argument should be one of the LXi_SCHMNODE values, and specifies
+        whether the input connection or the output connection is requested. The function will
+        return NOTAVAILABLE if no input or output connection is available for the requested
+        channel.
+
+        SchematicNodeChannel object = ChannelByIndex(integer index,integer type)"""
         ...
 
-    def ChannelByIndex(self, index, type):
-        """SchematicNodeChannel object = ChannelByIndex(integer index,integer type)"""
-        ...
-
-    def ChannelCount(self):
+    def ChannelCount(self) -> int:
         """integer count = ChannelCount()"""
         ...
 
-    def ConnectionByIndex(self, index, type):
+    def ConnectionByIndex(self, index: int, type: int) -> SchematicNodeChannel:
         """SchematicNodeConnection object = ConnectionByIndex(integer index,integer type)"""
         ...
 
-    def ConnectionCount(self):
+    def ConnectionCount(self) -> int:
         """integer count = ConnectionCount()"""
         ...
 
-    def Expanded(self):
+    def Expanded(self) -> bool:
         """boolean = Expanded()"""
         ...
 
-    def Group(self):
-        """Item object = Group()"""
-        ...
-
-    def IsRoot(self):
+    def IsRoot(self) -> bool:
         """boolean = IsRoot()"""
         ...
 
-    def Item(self):
-        """Item object = Item()"""
-        ...
-
-    def Position(self):
+    def Position(self) -> (float, float):
         """(float x,float y) = Position()"""
         ...
 
-    def RemoveChannel(self, index):
-        """RemoveChannel(integer index)"""
-        ...
-
-    def RootNode(self):
+    def RootNode(self) -> SchematicNode:
         """SchematicNode object = RootNode()"""
         ...
 
-    def SetPosition(self, x, y):
+    def SetPosition(self, x: float, y: float):
         """SetPosition(float x,float y)"""
         ...
 
-    def Size(self):
+    def Size(self) -> (float, float):
         """(float width,float height) = Size()"""
         ...
 
-    def SubNodeByIndex(self, index):
+    def SubNodeByIndex(self, index: int) -> SchematicNode:
         """SchematicNode object = SubNodeByIndex(integer index)"""
         ...
 
-    def SubNodeCount(self):
+    def SubNodeCount(self) -> int:
         """integer count = SubNodeCount()"""
         ...
 
@@ -11613,8 +11647,12 @@ class SchematicNodeChannel(object):
         """integer flags = Flags()"""
         ...
 
-    def Index(self):
-        """integer index = Index()"""
+    def Index(self) -> int:
+        """ This function returns the channel index for this schematic node channel.
+
+        integer index = Index()
+
+        """
         ...
 
     def Node(self):
@@ -15959,7 +15997,6 @@ class VirtualDevice(object):
         ...
 
 
-
 class VirtualModel(object):
     def __init__(self, *args, **kwargs):
         ...
@@ -16040,7 +16077,6 @@ class VirtualModel(object):
         ...
 
 
-
 class Visitor(object):
     def __init__(self, *args, **kwargs):
         ...
@@ -16056,7 +16092,6 @@ class Visitor(object):
     def test(self) -> bool:
         """bool = test()"""
         ...
-
 
 
 class Voxel(object):
@@ -16096,7 +16131,6 @@ class Voxel(object):
         ...
 
 
-
 class Waterfall(object):
     def __init__(self, *args, **kwargs):
         ...
@@ -16130,7 +16164,6 @@ class Waterfall(object):
         ...
 
 
-
 class WeightMapDeformerItem(object):
     def __init__(self, *args, **kwargs):
         ...
@@ -16150,7 +16183,6 @@ class WeightMapDeformerItem(object):
     def test(self) -> bool:
         """bool = test()"""
         ...
-
 
 
 class WorkList(object):
@@ -16182,41 +16214,39 @@ class WorkList(object):
         ...
 
 
-
 class storage(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def get(self):
+    def get(self) -> Any:
         """Read out the contents of the buffer as a tuple, either the full length or the specified length"""
         ...
 
-    def offset(self):
+    def offset(self, int):
         """Set or read the offset in the buffer"""
         ...
 
-    def set(self):
+    def set(self, Any):
         """Assign a tuple to fill the buffer"""
         ...
 
-    def setSize(self):
+    def setSize(self, int):
         """Set the number of elements in the buffer"""
         ...
 
-    def setType(self):
+    def setType(self, str):
         """Set the element type for buffer: float, double, int, byte, unsigned, pointer"""
         ...
 
-    def size(self):
+    def size(self) -> int:
         """Return the size of the buffer"""
         ...
 
-    def string(self):
+    def string(self) -> str:
         """Read out the contents of the buffer as a string"""
         ...
 
 
-
-def info():
+def info(unknown: Unknown):
+    """ Log interfaces for the unknown object. """
     ...
-

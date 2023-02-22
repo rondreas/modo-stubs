@@ -1367,7 +1367,7 @@ class Layer(object):
         """TransformScan object = XfrmAllocate(object toolVec)"""
         ...
 
-    def ScanAllocateItem(self, item, flags):
+    def ScanAllocateItem(self, item, flags) -> object.LayerScan:
         """LayerScan object = ScanAllocateItem(object item,integer flags)"""
         ...
 
