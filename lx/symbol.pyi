@@ -1132,25 +1132,37 @@ f_GUIDE_SNAP_AXIS_X = 1
 f_GUIDE_SNAP_AXIS_Y = 2
 f_GUIDE_SNAP_AXIS_Z = 4
 f_GUIDE_SNAP_NONE = 0
+
+""" Flags select the layers to be processed: ACTIVE is all current meshes; BACKGROUND is
+all visible but inactive meshes; PRIMARY is the one main selected mesh. The marking
+flags will mark the various element types as selected. So if MARKVERTS is set, for
+example, all selected vertices will have the "select" mark mode set. As always if
+no vertices are selected all will be marked.
+Set WRITEMESH to enable layer edits. """
+
 f_LAYERSCAN_ACTIVE = 1  # 0x001, All current meshes
 f_LAYERSCAN_BACKGROUND = 2  # 0x002 All visible but inactive meshes
 f_LAYERSCAN_PRIMARY = 4  # The one main selected mesh
 f_LAYERSCAN_ALL = 3  # (Active | Background)
-f_LAYERSCAN_EDIT = 497
-f_LAYERSCAN_EDIT_DVRTS = 385
-f_LAYERSCAN_EDIT_EDGES = 289
-f_LAYERSCAN_EDIT_POLVRT = 337
-f_LAYERSCAN_EDIT_POLYS = 321
-f_LAYERSCAN_EDIT_VERTS = 273
-f_LAYERSCAN_MARKALL = 240
-f_LAYERSCAN_MARKDVRTS = 128
+
+f_LAYERSCAN_MARKVERTS = 16
 f_LAYERSCAN_MARKEDGES = 32
 f_LAYERSCAN_MARKPOLYS = 64
-f_LAYERSCAN_MARKVERTS = 16
+f_LAYERSCAN_MARKDVRTS = 128
+f_LAYERSCAN_MARKALL = 240  # (MARKVERTS | MARKEDGES | MARKPOLYS | MARKDVRTS)
+
 f_LAYERSCAN_WRITEMESH = 256
+
+f_LAYERSCAN_EDIT = 497  # (ACTIVE | WRITEMESH | MARKALL)
+f_LAYERSCAN_EDIT_POLYS = 321  # (ACTIVE | WRITEMESH | MARKPOLYS)
+f_LAYERSCAN_EDIT_VERTS = 273  # (ACTIVE | WRITEMESH | MARKVERTS)
+f_LAYERSCAN_EDIT_EDGES = 289  # (ACTIVE | WRITEMESH | MARKEDGES)
+f_LAYERSCAN_EDIT_DVRTS = 385  # (ACTIVE | WRITEMESH | MARKDVRTS)
+f_LAYERSCAN_EDIT_POLVRT = 337  # (ACTIVE | WRITEMESH | MARKPOLYS | MARKVERTS)
+
 f_LAYER_ACTIVE = 1
-f_LAYER_BACKGROUND = 2
 f_LAYER_FOREGROUND = 1
+f_LAYER_BACKGROUND = 2
 f_LAYER_INACTIVE = 2
 f_LAYER_MAIN = 4
 f_LOADIMG_SEARCH_PATHS = 1
