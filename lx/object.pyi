@@ -9268,128 +9268,175 @@ class Point(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def ClearMapValue(self, map: int) -> None:
-        """ClearMapValue(id map)"""
-        ...
+    def Spawn(self) -> Point:
+        """
 
-    def Copy(self) -> int:
-        """id pointID = Copy()"""
-        ...
-
-    def Corner(self) -> vector:
-        """vector pos = Corner()"""
-        ...
-
-    def EdgeByIndex(self, index: int) -> int:
-        """id edgeID = EdgeByIndex(integer index)"""
-        ...
-
-    def EdgeCount(self) -> int:
-        """integer count = EdgeCount()"""
+        Point object = Spawn()"""
         ...
 
     def Enumerate(self, mode: int, visitor: Object, monitor: Object):
         """Enumerate(integer mode,object visitor,object monitor)"""
         ...
 
-    def ID(self) -> int:
-        """id = ID()"""
-        ...
-
-    def Index(self) -> int:
-        """integer index = Index()"""
-        ...
-
-    def MapEvaluate(self, map: int, value: storage):
-        """boolean = MapEvaluate(id map,float[] value)"""
-        ...
-
-    def MapValue(self, map: int, value: storage):
-        """boolean = MapValue(id map,float[] value)"""
-        ...
-
-    def Mesh(self) -> Unknown:
-        """Unknown object = Mesh()"""
-        ...
-
-    def New(self, pos: vector) -> int:
-        """id pointID = New(vector pos)"""
-        ...
-
-    def NewOnEdge(self, A: int, B: int, percent: float) -> int:
-        """id newPoint = NewOnEdge(id A,id B,float percent)"""
-        ...
-
-    def Normal(self, polygon: int) -> vector:
-        """vector normal = Normal(id polygon)"""
-        ...
-
-    def OnSymmetryCenter(self):
-        """OnSymmetryCenter()"""
-        ...
-
-    def Part(self) -> int:
-        """integer part = Part()"""
-        ...
-
-    def PointByIndex(self, index: int) -> int:
-        """id pointID = PointByIndex(integer index)"""
-        ...
-
-    def PointCount(self) -> int:
-        """integer count = PointCount()"""
-        ...
-
-    def PolygonByIndex(self, index: int) -> int:
-        """id polygonID = PolygonByIndex(integer index)"""
-        ...
-
-    def PolygonCount(self) -> int:
-        """integer count = PolygonCount()"""
-        ...
-
-    def Pos(self) -> vector:
-        """vector pos = Pos()"""
-        ...
-
-    def Remove(self):
-        """Remove()"""
-        ...
-
-    def Select(self, point: int):
-        """Select(id point)"""
-        ...
-
-    def SelectByIndex(self, index: int):
-        """SelectByIndex(integer index)"""
-        ...
-
-    def SelectPolygonVertex(self, polygon: int, index: int):
-        """SelectPolygonVertex(id polygon,integer index)"""
-        ...
-
-    def SetMapValue(self, map, value):
-        """SetMapValue(id map,float[] value)"""
+    def TestMarks(self, mode: int) -> bool:
+        """boolean = TestMarks(integer mode)"""
         ...
 
     def SetMarks(self, set: int):
         """SetMarks(integer set)"""
         ...
 
+    def Select(self, point: int):
+        """ This method sets the accessor to the given point. Only points that are known to be in the mesh should be 
+        passed to this method.
+
+        Select(id point)
+
+        """
+        ...
+
+    def SelectByIndex(self, index: int):
+        """ A point can be selected by its index in the mesh.
+
+        SelectByIndex(integer index)
+
+        """
+        ...
+
+    def SelectPolygonVertex(self, polygon: int, index: int):
+        """ A point can also be selected by its index within a polygon.
+
+        SelectPolygonVertex(id polygon,integer index)"""
+        ...
+
+    def ID(self) -> int:
+        """ This methods returns the ID of the curent point or null if none.
+
+        id = ID()"""
+        ...
+
+    def Index(self) -> int:
+        """ This methods returns the index of the curent point.
+
+        integer index = Index()"""
+        ...
+
+    def Pos(self) -> vector:
+        """ This returns the position of the point.
+
+        vector pos = Pos()"""
+        ...
+
+    def Normal(self, polygon: int) -> vector:
+        """ This method returns the geometric normal of this point for the given polygon. This is the average of the 
+        connected polygon normals if the polygon is null.
+
+        vector normal = Normal(id polygon)
+        
+        """
+        ...
+
+    def MapValue(self, map: int, value: storage):
+        """ This returns the value of the current point in the given map.  This returns LXe_FALSE for points with no 
+        value set in the map.
+        
+        boolean = MapValue(id map,float[] value)
+        
+        """
+        ...
+
+    def MapEvaluate(self, map: int, value: storage):
+        """ This method is the same as MapValue(), except that if the point is not in the map it will return zero for 
+        maps that allow that.
+        
+        boolean = MapEvaluate(id map,float[] value)
+        
+        """
+        ...
+
+    def PolygonCount(self) -> int:
+        """ This method return the number of polygons sharing this point as a vertex,
+
+        integer count = PolygonCount()"""
+        ...
+
+    def PolygonByIndex(self, index: int) -> int:
+        """ This method returns the polygon ID for a specific index.
+
+        id polygonID = PolygonByIndex(integer index)"""
+        ...
+    
+    def New(self, pos: vector) -> int:
+        """ This creates a new point in the mesh.  It sets the current point to the new point.
+        
+        id pointID = New(vector pos)"""
+        ...
+
+    def Copy(self) -> int:
+        """ This creates a new point in the mesh duplicating the current point. If this point has already been copied 
+        this function returns the same pointer.
+        
+        id pointID = Copy()"""
+        ...
+
+    def Remove(self):
+        """Remove()"""
+        ...
+
     def SetPos(self, pos: vector):
         """SetPos(vector pos)"""
         ...
 
-    def Spawn(self) -> Point:
-        """Point object = Spawn()"""
+    def SetMapValue(self, map, value):
+        """SetMapValue(id map,float[] value)"""
+        ...
+
+    def ClearMapValue(self, map: int):
+        """ This removes any value for the point in the given map.
+
+        ClearMapValue(id map)
+
+        """
+        ...
+
+    def Corner(self) -> vector:
+        """vector pos = Corner()"""
+        ...
+
+    def PointCount(self) -> int:
+        """integer count = PointCount()"""
+        ...
+
+    def PointByIndex(self, index: int) -> int:
+        """id pointID = PointByIndex(integer index)"""
+        ...
+
+    def EdgeCount(self) -> int:
+        """integer count = EdgeCount()"""
+        ...
+
+    def EdgeByIndex(self, index: int) -> int:
+        """id edgeID = EdgeByIndex(integer index)"""
         ...
 
     def Symmetry(self) -> int:
         """id pointID = Symmetry()"""
         ...
 
-    def TestMarks(self, mode: int) -> bool:
-        """boolean = TestMarks(integer mode)"""
+    def OnSymmetryCenter(self):
+        """OnSymmetryCenter()"""
+        ...
+
+    def Mesh(self) -> Unknown:
+        """Unknown object = Mesh()"""
+        ...
+
+    def NewOnEdge(self, A: int, B: int, percent: float) -> int:
+        """id newPoint = NewOnEdge(id A,id B,float percent)"""
+        ...
+
+    def Part(self) -> int:
+        """integer part = Part()"""
         ...
 
     def set(self, source: object) -> bool:
@@ -9440,12 +9487,14 @@ class Polygon(object):
         """AddContourEdge(id startPt,id endPt)"""
         ...
 
-    def Area(self):
+    def Area(self) -> float:
         """float area = Area()"""
         ...
 
-    def ClearMapValue(self, point, map):
-        """ClearMapValue(id point,id map)"""
+    def ClearMapValue(self, point: int, map: int):
+        """ This removes any value for the point/polygon pair in the given map.
+        
+        ClearMapValue(id point,id map)"""
         ...
 
     def ClearTriangles(self):
@@ -9901,44 +9950,126 @@ class PresetType(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def Apply(self, path, destination):
-        """Apply(string path,object destination)"""
+    def Recognize(self, path: str) -> str:
+        """ The recognize method is passed the full path to a file.  The server should return an OK code if the server 
+        wants to take ownership of it, in which case it may be asked to present the relative metrics, thumbnails and 
+        so on, or asked to apply (load) the preset into a compatible object.  
+
+        Returning a failure code will pass the file on to the next server.  If no servers recognize the file, it will 
+        not be shown in the browser, and no servers will be asked to try to load the file. A category string is returned
+        indirectly, and should be one of the categories provided by the server through LXsPBS_CATEGORY.  This is used to
+        decide if the preset should be be shown when the browser is set to only show a specific category.
+
+        As of 801, the Recognize() method does not return a GUID.  Pre-801 servers may return a GUID for use with drag 
+        and drop, but modern clients use ILxDrop to handle arbitrary drop sources and targets, and the Apply() method may
+        support multiple possible interfaces.  As such, the old GUID is considred obsolete and was removed.
+
+        Note that the Recognize() method must be thread-safe, as it is called asynchronously to filter the preset 
+        browser's file list.
+
+        string category = Recognize(string path)
+
+        """
         ...
 
-    def BaseAspect(self):
-        """float aspect = BaseAspect()"""
+    def Apply(self, path: str, destination: Unknown):
+        """ The Apply() method is also obsolete.  It was previous used for legacy D&D, but that has been superceded by 
+        ILxDrop servers.  Servers can not implement this method and simply return LXe_NOTIMPL, in which case an 
+        ILxDrop server must be used to apply the preset. 
+
+        In legacy D&D, once a preset has been recognized the client may ask the server to apply the preset, or it may 
+        simply ask for metrics (see the section on metrics for more information on the latter).
+
+        To apply the preset, a client would call this method.  The client needs to provide the path to a file that was
+        previously identified with the above Recognize() call.  The destination argument is a COM object containing one
+        or more interfaces that the prset can use to decide how to apply itself.
+
+        The Apply() method itself will query the destination object for the required interface, failing if it is not 
+        found.
+
+        By default, the server is assumed to support Apply(), and will be considered when testing servers for drag and 
+        drop support.  If it does not support Apply(), the LXsPBS_CANAPPLY server tag must be present with a value of 
+        "false".  This is particularly useful for things like images, which aren't presets per say, but still show up 
+        in the browser.
+
+        Apply(string path,object destination)"""
         ...
 
-    def DefaultThumbnail(self, path):
-        """DefaultThumbnail(string path)"""
+    def Do(self, path: str):
+        """ It is also possible to load a preset without a destination.  An example would be double-clicking on a 
+        preset in the browser, rather than using drag and drop. In this case, the server needs to look at the current 
+        selection state and intelligently apply the preset itself.  We just call this a "do" instead of an "apply".
+
+        Note that the Do() method should call a command to actually do the apply.  This is because preset.do is a UI 
+        command, and they only way to promot it to undoable or side-effect behavior is by executing another command 
+        within it.
+
+        By default, the server is assumed to support Do(), and thus will be considered when evaluating servers in 
+        preset.do.  If it does not support Do(), the LXsPBS_CANDO server tag must be present with a value of "false".
+
+        Do(string path)"""
         ...
 
-    def Do(self, path):
-        """Do(string path)"""
+    def DoCommandFlags(self, path: str) -> int:
+        """ This method returns the execution flags for a file previously recognized by the server.  If not implemented,
+        the default UI flags are used.
+
+        integer flags = DoCommandFlags(string path)
+
+        """
         ...
 
-    def DoCommandFlags(self, path):
-        """integer flags = DoCommandFlags(string path)"""
+    def Metrics(self, path: str, flags: int, w: int, h: int, prevMetrics: Unknown) -> PresetMetrics:
+        """ Lastly, it is valid for a client to return LXe_NOTIMPL and not generate any metrics at all.  This allows the
+        creation of clients that only recognize file types and allow them to show up in the browser with default 
+        properties.
+
+        PresetMetrics object = Metrics(string path,integer flags,integer w,integer h,object prevMetrics)"""
         ...
 
-    def GenericThumbnailResource(self, path):
-        """string resourceName = GenericThumbnailResource(string path)"""
+    def GenericThumbnailResource(self, path: str) -> str:
+        """ Servers can define a generic named resource image that is used if the metrics themselves do not provide 
+        either a specific thumbnail or a named resource. If this fails, no thumbnail will be shown.
+
+        string resourceName = GenericThumbnailResource(string path)"""
         ...
 
-    def Metrics(self, path, flags, w, h, prevMetrics):
-        """PresetMetrics object = Metrics(string path,integer flags,integer w,integer h,object prevMetrics)"""
+    def BaseAspect(self) -> float:
+        """ Servers can also define an aspect ratio that should be used for the thumbnails representing their content.  
+        If not implemented, the default aspect of 1.0 is used.  Since the browser can only show one aspect, there is no 
+        point in returning per-thumbnail aspects.  Note that thumbnail images themselves need not be this aspect, and 
+        will automatically be centered within the thumbnail's bounds.
+
+        float aspect = BaseAspect()"""
         ...
 
-    def Recognize(self, path):
-        """string category = Recognize(string path)"""
+    def StoreThumbnail(self, path: str, image: Unknown):
+        """ The user can update the thumbnail at will.  If the preset format supports it, the new thumbnail can be 
+        stored directly in the prefest file itself when this method is called. If not supported, this can return 
+        LXe_NOTIMPL.
+
+        StoreThumbnail(string path,object image)"""
         ...
 
-    def StoreMarkup(self, path, attr):
-        """StoreMarkup(string path,object attr)"""
+    def DefaultThumbnail(self, path: str):
+        """ This indicates that any previously stored thumbnail should be removed and the default should be used.  
+        This only makes sense if a thumbnail can be generated procedurally, and can return LXe_NOTIMPL if this isn't 
+        supported. 
+
+        DefaultThumbnail(string path)"""
         ...
 
-    def StoreThumbnail(self, path, image):
-        """StoreThumbnail(string path,object image)"""
+    def StoreMarkup(self, path: str, attr: Unknown):
+        """ User-defined markup (favorites, tags, etc) can be stored in the file.  The object passed in will have an 
+        ILxAttributes interface, and its contents should be written to the file, if the format supports it.  If not, 
+        this can return LXe_NOTIMPL.
+
+        This represents the shared markup (meaning, markup stored in the file itself), not the per-user markup, which 
+        is automatically stored in a standard user location.
+
+        StoreMarkup(string path,object attr)
+
+        """
         ...
 
     def set(self, source: object) -> bool:
