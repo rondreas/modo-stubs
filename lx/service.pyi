@@ -1,4 +1,7 @@
+from typeing import Tuple
+
 from . import object
+
 
 class AudioAnim(object):
     def Audio(self):
@@ -1220,64 +1223,103 @@ class IO(object):
 
 
 class Image(object):
-    def Composite(self, dest, source, pos):
-        """Composite(object dest,object source,vector pos)"""
+    """ Image facilities can be accessed through the SDK using a global service interface. """
+    def ScriptQuery(self) -> object.Unknown:
+        """Unknown object = ScriptQuery()"""
         ...
 
-    def Create(self, width, height, type, maxIndex):
+    def Create(self, width: int, height: int, type: int, maxIndex: int) -> object.Image:
         """Image object = Create(integer width,integer height,integer type,integer maxIndex)"""
         ...
 
-    def CreateCrop(self, sourceImage, x, y, w, h):
-        """Image object = CreateCrop(object sourceImage,float x,float y,float w,float h)"""
+    def Duplicate(self, source: object.Image, type: int) -> object.Image:
+        """ Creates and returns a copy of source image with type defining the pixel format. 
+
+        Image object = Duplicate(object source,integer type)"""
         ...
 
-    def CreateLayered(self, width, height, layerNum):
-        """Unknown object = CreateLayered(integer width,integer height,integer layerNum)"""
-        ...
-
-    def DrawLine(self, image, p0, p1, color):
-        """DrawLine(object image,vector p0,vector p1,vector color)"""
-        ...
-
-    def Duplicate(self, source, type):
-        """Image object = Duplicate(object source,integer type)"""
-        ...
-
-    def ImageGetBuffer(self, sourceImage, type, buf):
-        """ImageGetBuffer(object sourceImage,integer type,data[] buf)"""
-        ...
-
-    def Kelvin2RGB(self, kelvin):
-        """vector rgbColor = Kelvin2RGB(float kelvin)"""
-        ...
-
-    def Load(self, filePath):
+    def Load(self, filePath: str) -> object.Image:
         """Image object = Load(string filePath)"""
         ...
 
-    def LoadNoCache(self, filePath):
-        """Image object = LoadNoCache(string filePath)"""
+    def Save(self, image: object.Image, filePath: str, format: str, monitor: object.Monitor):
+        """
+
+        >>> image_service = lx.service.Image()
+        >>> image = image_service.Create(256, 256, lx.symbol.iIMV_RGB, 0)
+        >>> image_write = lx.object.ImageWrite(image)
+        >>> color = lx.object.storage("b", image.Format())
+        >>> for y in range(256):
+        ...     for x in range(256):
+		...         color.set((x, y, 0))
+        ...         image_write.SetPixel(x, y, image.Format(), color)
+        >>> image_service.Save(image, "C:/Users/username/Desktop/gradient.tga", "$Targa", 0)
+
+        Save(object image,string filePath,string format,object monitor)"""
         ...
 
-    def RGB2Kelvin(self, rgbColor):
-        """float kelvin = RGB2Kelvin(vector rgbColor)"""
+    def Resample(self, dest: object.Image, source: object.Image, hint: int):
+        """ Resamples the image from source to dest with hints being either of following symbols.
+        
+        lx.symbol.iPROCESS_FAST
+        lx.symbol.iPROCESS_MEDIUM
+        lx.symbol.iPROCESS_ACCURATE
+
+        Resample(object dest,object source,integer hint)"""
         ...
 
-    def Resample(self, dest, source, hint):
-        """Resample(object dest,object source,integer hint)"""
+    def Composite(self, dest: object.Image, source: object.Image, pos: object.storage):
+        """Composite(object dest,object source,vector pos)"""
         ...
 
-    def Save(self, image, filePath, format, monitor):
-        """Save(object image,string filePath,string format,object monitor)"""
+    def DrawLine(self, image: object.Image, p0: Tuple[int, int], p1: Tuple[int, int], color: object.storage):
+        """ DrawLine(object image,vector p0,vector p1,vector color)"""
         ...
 
-    def SaveLayered(self, layeredImage, filePath, format, monitor):
+    def Kelvin2RGB(self, kelvin: float) -> Tuple[float, float, float]:
+        """ Color temperature in kelvin converted to RGB colors as three floats.
+
+        >>> image_service = lx.service.Image()
+        >>> image_service.Kelvin2RGB(4500.0)
+        (1.0, 0.8742517828941345, 0.5419720411300659)
+
+        vector rgbColor = Kelvin2RGB(float kelvin)"""
+        ...
+
+    def RGB2Kelvin(self, rgbColor: Tuple[float, float, float]) -> float:
+        """ Color RGB to color temperature in kelvins
+
+        >>> image_service = lx.service.Image()
+        >>> image_service.RGB2Kelvin((1.0, 0.9, 0.5))
+        4394.7978515625
+
+        float kelvin = RGB2Kelvin(vector rgbColor)"""
+        ...
+
+    def CreateCrop(self, sourceImage: object.Image, x: float, y: float, w: float, h: float) -> object.Image:
+        """Image object = CreateCrop(object sourceImage,float x,float y,float w,float h)"""
+        ...
+
+    def ImageGetBuffer(self, sourceImage: object.Image, type: int, buf: object.storage):
+        """ This reads the entire image into a single buffer given the pixel format. This is just
+        like Image::GetLine() except that it does all the lines at once.
+
+        ImageGetBuffer(object sourceImage,integer type,data[] buf)"""
+        ...
+
+    def LoadNoCache(self, filePath: str) -> object.Image:
+        """ Same a Load() but the image is not added to the internal cache. This is useful when
+        the image is only needed once (say, because it is being loaded and resized)
+
+        Image object = LoadNoCache(string filePath)"""
+        ...
+
+    def CreateLayered(self, width: int, height: int, layerNum: int) -> object.Unknown:
+        """Unknown object = CreateLayered(integer width,integer height,integer layerNum)"""
+        ...
+
+    def SaveLayered(self, layeredImage: object.LayeredImage, filePath: str, format: str, monitor: object.Monitor):
         """SaveLayered(object layeredImage,string filePath,string format,object monitor)"""
-        ...
-
-    def ScriptQuery(self):
-        """Unknown object = ScriptQuery()"""
         ...
 
 
