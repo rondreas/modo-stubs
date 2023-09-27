@@ -9708,15 +9708,21 @@ class Polygon(object):
         ...
 
     def EnumerateByUV(self, mode, vMapName, quality, uv, visitor):
-        """EnumerateByUV(integer mode,string vMapName,integer quality,vector uv,object visitor)"""
+        """ This function enumerates the polygons that contain the given texture coordinate position.
+
+        EnumerateByUV(integer mode,string vMapName,integer quality,vector uv,object visitor)"""
         ...
 
     def EnumerateBin(self, mode, visitor, bin):
-        """EnumerateBin(integer mode,object visitor,object bin)"""
+        """ This function enumerates all the polygons with a given surface bin.
+
+        EnumerateBin(integer mode,object visitor,object bin)"""
         ...
 
     def Mesh(self) -> Unknown:
-        """Unknown object = Mesh()"""
+        """ This function returns the ILxMesh object associated with the polygon accessor.
+
+        Unknown object = Mesh()"""
         ...
 
     def EnumerateByPTag(self, mode: int, type: int, tag: str, visitor: Visitor):
