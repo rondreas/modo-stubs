@@ -7,6 +7,7 @@ from typing import Tuple
 # Type hints for matrices and static length tuples of floats.
 # the c definition of these are found in lxvmath.h
 vector = tuple[float, float, float]  # typedef double LXtVector[3];
+vector2 = tuple[float, float]
 vector4 = tuple[float, float, float, float]
 
 matrix = tuple[vector, vector, vector]  # typedef double LXtMatrix[3][3]:
@@ -9483,12 +9484,110 @@ class Polygon(object):
     def __init__(self, *args, **kwargs):
         ...
 
-    def AddContourEdge(self, startPt, endPt):
-        """AddContourEdge(id startPt,id endPt)"""
+    def Spawn(self) -> Polygon:
+        """Polygon object = Spawn()"""
+        ...
+
+    def Enumerate(self, mode: int, visitor: Visitor, monitor: Monitor | int):
+        """ All accessors share common interface methods for walking their respective lists.
+
+        Enumerate(integer mode,object visitor,object monitor)"""
+        ...
+
+    def TestMarks(self, mode: int) -> bool:
+        """boolean = TestMarks(integer mode)"""
+        ...
+
+    def SetMarks(self, set: int):
+        """SetMarks(integer set)"""
+        ...
+
+    def Select(self, polygon: int):
+        """Select(id polygon)"""
+        ...
+
+    def SelectByIndex(self, index: int):
+        """SelectByIndex(integer index)"""
+        ...
+
+    def ID(self) -> int:
+        """id = ID()"""
+        ...
+
+    def Index(self) -> int:
+        """integer index = Index()"""
+        ...
+
+    def Type(self) -> int:
+        """integer type = Type()"""
+        ...
+
+    def VertexCount(self) -> int:
+        """ Return number of vertices in the polygon.
+
+        integer count = VertexCount()"""
+        ...
+
+    def VertexByIndex(self, index: int) -> int:
+        """ Get point id by polygon vertex index.
+
+        id point = VertexByIndex(integer index)"""
+        ...
+
+    def FirstIsControlEndpoint(self) -> bool:
+        """ Returns True if the first point is an extended control point, if polygon is not a curve this method fails.
+
+        boolean = FirstIsControlEndpoint()"""
+        ...
+
+    def LastIsControlEndpoint(self) -> bool:
+        """ Returns True if the last point is an control point, if polygon is not a curve this method fails.
+
+        boolean = LastIsControlEndpoint()"""
+        ...
+
+    def Normal(self) -> vector:
+        """vector normal = Normal()"""
+        ...
+
+    def MapValue(self, map: int, point: int, value: storage) -> bool:
+        """boolean = MapValue(id map,id point,float[] value)"""
+        ...
+
+    def MapEvaluate(self, map: int, point: int, value: storage) -> bool:
+        """boolean = MapEvaluate(id map,id point,float[] value)"""
         ...
 
     def Area(self) -> float:
         """float area = Area()"""
+        ...
+
+    def New(self, type: int, vertices: storage, numVert: int, rev: int) -> int:
+        """id polygonID = New(integer type,id[] vertices,integer numVert,integer rev)"""
+        ...
+
+    def NewProto(self, type: int, vertices: storage, numVert: int, rev: int) -> int:
+        """id polygonID = NewProto(integer type,id[] vertices,integer numVert,integer rev)"""
+        ...
+
+    def Remove(self):
+        """Remove()"""
+        ...
+
+    def SetFirstIsControlEndpoint(self, state):
+        """SetFirstIsControlEndpoint(integer state)"""
+        ...
+
+    def SetLastIsControlEndpoint(self, state):
+        """SetLastIsControlEndpoint(integer state)"""
+        ...
+
+    def SetVertexList(self, vertices, numVert, rev):
+        """SetVertexList(id[] vertices,integer numVert,integer rev)"""
+        ...
+
+    def SetMapValue(self, point, map, value):
+        """SetMapValue(id point,id map,float[] value)"""
         ...
 
     def ClearMapValue(self, point: int, map: int):
@@ -9497,8 +9596,31 @@ class Polygon(object):
         ClearMapValue(id point,id map)"""
         ...
 
-    def ClearTriangles(self):
-        """ClearTriangles()"""
+    def StartContour(self):
+        """StartContour()"""
+        ...
+
+    def AddContourEdge(self, startPt, endPt):
+        """AddContourEdge(id startPt,id endPt)"""
+        ...
+
+    def GenerateContour(self, type):
+        """id polygonID = GenerateContour(integer type)"""
+        ...
+
+    def GenerateContourProto(self):
+        """id polygonID = GenerateContourProto()"""
+        ...
+
+    def IntersectRay(self, pos, dir):
+        """ This method traces a ray with a given start position and direction (normalized).
+        If the ray intersects a polygon it sets the current polygon, sets the distance to
+        the hit point and the surface normal, and returns LXe_TRUE. It returns LXe_FALSE
+        if there are no polygons in the path of the ray.
+
+        (boolean,vector hitNorm,float hitDist) = IntersectRay(vector pos,vector dir)
+
+        """
         ...
 
     def Closest(self, maxDist: float, pos: vector) -> Tuple[bool, vector, vector, float]:
@@ -9513,199 +9635,109 @@ class Polygon(object):
         """
         ...
 
-    def EdgeIndex(self, edgeID):
-        """integer index = EdgeIndex(id edgeID)"""
-        ...
-
-    def Enumerate(self, mode, visitor, monitor):
-        """Enumerate(integer mode,object visitor,object monitor)"""
-        ...
-
-    def EnumerateBBox(self, mode, visitor, min, max):
-        """EnumerateBBox(integer mode,object visitor,vector min,vector max)"""
-        ...
-
-    def EnumerateBin(self, mode, visitor, bin):
-        """EnumerateBin(integer mode,object visitor,object bin)"""
-        ...
-
-    def EnumerateByPTag(self, mode, type, tag, visitor):
-        """EnumerateByPTag(integer mode,integer type,string tag,object visitor)"""
-        ...
-
-    def EnumerateByUV(self, mode, vMapName, quality, uv, visitor):
-        """EnumerateByUV(integer mode,string vMapName,integer quality,vector uv,object visitor)"""
-        ...
-
-    def EnumerateLine(self, mode, visitor, org, dir):
-        """EnumerateLine(integer mode,object visitor,vector org,vector dir)"""
-        ...
-
-    def EnumerateRay(self, mode, visitor, org, ray):
-        """EnumerateRay(integer mode,object visitor,vector org,vector ray)"""
-        ...
-
-    def FirstIsControlEndpoint(self):
-        """boolean = FirstIsControlEndpoint()"""
-        ...
-
-    def GenerateContour(self, type):
-        """id polygonID = GenerateContour(integer type)"""
-        ...
-
-    def GenerateContourProto(self):
-        """id polygonID = GenerateContourProto()"""
-        ...
-
-    def GenerateTriangles(self):
-        """integer count = GenerateTriangles()"""
-        ...
-
-    def GoodPoint(self, points, nPoints):
-        """integer index = GoodPoint(id[] points,integer nPoints)"""
-        ...
-
-    def ID(self):
-        """id = ID()"""
-        ...
-
-    def Index(self):
-        """integer index = Index()"""
-        ...
-
-    def IntersectRay(self, pos, dir):
-        """ This method traces a ray with a given start position and direction (normalized).
-        If the ray intersects a polygon it sets the current polygon, sets the distance to
-        the hit point and the surface normal, and returns LXe_TRUE. It returns LXe_FALSE
-        if there are no polygons in the path of the ray.
-
-        (boolean,vector hitNorm,float hitDist) = IntersectRay(vector pos,vector dir)
-
-        """
-        ...
-
-    def IsBorder(self):
-        """boolean = IsBorder()"""
-        ...
-
-    def LastIsControlEndpoint(self):
-        """boolean = LastIsControlEndpoint()"""
-        ...
-
-    def MapEvaluate(self, map, point, value):
-        """boolean = MapEvaluate(id map,id point,float[] value)"""
-        ...
-
-    def MapValue(self, map, point, value):
-        """boolean = MapValue(id map,id point,float[] value)"""
-        ...
-
-    def Mesh(self):
-        """Unknown object = Mesh()"""
-        ...
-
-    def New(self, type, vertices, numVert, rev):
-        """id polygonID = New(integer type,id[] vertices,integer numVert,integer rev)"""
-        ...
-
-    def NewCurveFill(self, polygons, numPols):
-        """id polygonID = NewCurveFill(id[] polygons,integer numPols)"""
-        ...
-
-    def NewProto(self, type, vertices, numVert, rev):
-        """id polygonID = NewProto(integer type,id[] vertices,integer numVert,integer rev)"""
-        ...
-
-    def Normal(self):
-        """vector normal = Normal()"""
-        ...
-
-    def Part(self):
-        """integer part = Part()"""
-        ...
-
     def PointIndex(self, pointID):
         """integer index = PointIndex(id pointID)"""
         ...
 
-    def Remove(self):
-        """Remove()"""
-        ...
-
-    def RepresentativePosition(self) -> vector:
-        """vector pos = RepresentativePosition()"""
-        ...
-
-    def Select(self, polygon):
-        """Select(id polygon)"""
-        ...
-
-    def SelectByIndex(self, index):
-        """SelectByIndex(integer index)"""
-        ...
-
-    def SetFirstIsControlEndpoint(self, state):
-        """SetFirstIsControlEndpoint(integer state)"""
-        ...
-
-    def SetLastIsControlEndpoint(self, state):
-        """SetLastIsControlEndpoint(integer state)"""
-        ...
-
-    def SetMapValue(self, point, map, value):
-        """SetMapValue(id point,id map,float[] value)"""
-        ...
-
-    def SetMarks(self, set):
-        """SetMarks(integer set)"""
-        ...
-
-    def SetVertexList(self, vertices, numVert, rev):
-        """SetVertexList(id[] vertices,integer numVert,integer rev)"""
+    def EdgeIndex(self, edgeID):
+        """integer index = EdgeIndex(id edgeID)"""
         ...
 
     def SharedEdge(self, polygonID):
         """id edgeID = SharedEdge(id polygonID)"""
         ...
 
-    def Spawn(self):
-        """Polygon object = Spawn()"""
+    def IsBorder(self):
+        """boolean = IsBorder()"""
         ...
 
-    def StartContour(self):
-        """StartContour()"""
+    def RepresentativePosition(self) -> vector:
+        """vector pos = RepresentativePosition()"""
         ...
 
-    def Symmetry(self):
-        """id polygonID = Symmetry()"""
+    def GoodPoint(self, points, nPoints):
+        """integer index = GoodPoint(id[] points,integer nPoints)"""
         ...
 
-    def TestMarks(self, mode):
-        """boolean = TestMarks(integer mode)"""
+    def GenerateTriangles(self):
+        """integer count = GenerateTriangles()"""
         ...
 
     def TriangleByIndex(self, index):
         """(id point0,id point1,id point2) = TriangleByIndex(integer index)"""
         ...
 
-    def Type(self):
-        """integer type = Type()"""
+    def ClearTriangles(self):
+        """ClearTriangles()"""
         ...
 
-    def UVLookup(self, vMapName, uv):
-        """(vector surfacePosition,vector surfaceNormal,vector surfaceDPDU,vector surfaceDPDV) = UVLookup(string vMapName,vector uv)"""
+    def EnumerateBBox(self, mode, visitor, min, max):
+        """ This function enumerates the polygons conatined in the given bounding box.
+
+        EnumerateBBox(integer mode,object visitor,vector min,vector max)"""
         ...
 
-    def UVPart(self, map):
-        """integer part = UVPart(id map)"""
+    def EnumerateRay(self, mode, visitor, org, ray):
+        """ This function enumerates the polygons along the ray given by its origin and direction vectors.
+
+        EnumerateRay(integer mode,object visitor,vector org,vector ray)"""
         ...
 
-    def VertexByIndex(self, index):
-        """id point = VertexByIndex(integer index)"""
+    def EnumerateLine(self, mode, visitor, org, dir):
+        """EnumerateLine(integer mode,object visitor,vector org,vector dir)"""
         ...
 
-    def VertexCount(self):
-        """integer count = VertexCount()"""
+    def NewCurveFill(self, polygons: storage, numPols: int) -> int:
+        """ Create curve fill polygon from continuous linear type polygons.
+
+        id polygonID = NewCurveFill(id[] polygons,integer numPols)"""
+        ...
+
+    def Symmetry(self):
+        """ This sets the symmetric point corresponding to the current polygon when the symmetry mode is enabled.
+        This returns LXe_OK when the symmetric polygon is found, otherwise it returns LXe_FAILED.
+
+        id polygonID = Symmetry()"""
+        ...
+
+    def UVLookup(self, vMapName: str, uv: vector2) -> Tuple[vector, vector, vector, vector]:
+        """ This returns surface point, normal, DPDU and DPDV for a given UV position on the polygon. The normal
+        and the DPDU/DPDV can be null, if not interested in those values.
+
+        (vector surfacePosition,vector surfaceNormal,vector surfaceDPDU,vector surfaceDPDV) = UVLookup(string vMapName,vector uv)"""
+        ...
+
+    def EnumerateByUV(self, mode, vMapName, quality, uv, visitor):
+        """EnumerateByUV(integer mode,string vMapName,integer quality,vector uv,object visitor)"""
+        ...
+
+    def EnumerateBin(self, mode, visitor, bin):
+        """EnumerateBin(integer mode,object visitor,object bin)"""
+        ...
+
+    def Mesh(self) -> Unknown:
+        """Unknown object = Mesh()"""
+        ...
+
+    def EnumerateByPTag(self, mode: int, type: int, tag: str, visitor: Visitor):
+        """ Clients can also enumerate over all polygons that have the same tags. The type of tag must be specified,
+        along with the value to match.
+
+        EnumerateByPTag(integer mode,integer type,string tag,object visitor)"""
+        ...
+
+    def Part(self) -> int:
+        """ This function returns the part number for the current polygon. All connected polygons share the same
+        part number.
+
+        integer part = Part()"""
+        ...
+
+    def UVPart(self, map: int) -> int:
+        """ This function returns the uv part number for the current polygon. All polygons connected on the given
+        UV map share the same part number.
+
+        integer part = UVPart(id map)"""
         ...
 
     def set(self, source: object) -> bool:
