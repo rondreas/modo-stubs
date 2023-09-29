@@ -5916,27 +5916,30 @@ class ImageSegment(object):
 
 
 class ImageWrite(object):
+    """ Writing to an image requires a different interface. This provides
+    methods for assigning color values to pixels or lines. Not all images
+    will be writable. """
     def __init__(self, *args, **kwargs):
         ...
 
-    def AddAttribute(self, name, type):
-        """integer index = AddAttribute(string name,string type)"""
+    def Size(self) -> Tuple[int, int]:
+        """(integer w,integer h) = Size()"""
         ...
 
-    def Format(self):
+    def Format(self) -> int:
         """integer = Format()"""
         ...
 
-    def SetLine(self, y, type, line):
-        """SetLine(integer y,integer type,data[] line)"""
+    def AddAttribute(self, name: str, type: str):
+        """integer index = AddAttribute(string name,string type)"""
         ...
 
-    def SetPixel(self, x, y, type, pixel):
+    def SetPixel(self, x: int, y: int, type: int, pixel: storage):
         """SetPixel(integer x,integer y,integer type,data[] pixel)"""
         ...
 
-    def Size(self):
-        """(integer w,integer h) = Size()"""
+    def SetLine(self, y: int, type: int, line: storage):
+        """SetLine(integer y,integer type,data[] line)"""
         ...
 
     def set(self, source: object) -> bool:
