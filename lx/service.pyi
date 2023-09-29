@@ -2536,8 +2536,8 @@ class Render(object):
         """FrameDelete(integer slotIndex)"""
         ...
 
-    def FrameRecall(self, slotIndex, ...Index, monitor):
-        """FrameBuffer object = FrameRecall(integer slotIndex,integer ...Index,object monitor)"""
+    def FrameRecall(self, slotIndex, passIndex, monitor):
+        """FrameBuffer object = FrameRecall(integer slotIndex,integer passIndex,object monitor)"""
         ...
 
     def FrameRecallStats(self, slotIndex):
@@ -2552,8 +2552,8 @@ class Render(object):
         """integer numPasses = FrameRenderPassCount(integer slotIndex)"""
         ...
 
-    def FrameRenderPassInfo(self, slotIndex, ...Index, name):
-        """(integer width,integer height,integer outputCount,integer isStereo,integer eyeDisplay,integer stereoComposite) = FrameRenderPassInfo(integer slotIndex,integer ...Index,byte[] name)"""
+    def FrameRenderPassInfo(self, slotIndex, passIndex, name):
+        """(integer width,integer height,integer outputCount,integer isStereo,integer eyeDisplay,integer stereoComposite) = FrameRenderPassInfo(integer slotIndex,integer passIndex,byte[] name)"""
         ...
 
     def FrameSaveImage(self, framebuffer, bufferIndex, filename, format, message, monitor):
@@ -2588,8 +2588,8 @@ class Render(object):
         """FrameStoreThumbnail(integer slotIndex,object image)"""
         ...
 
-    def FrameTestRecall(self, slotIndex, ...Index):
-        """boolean = FrameTestRecall(integer slotIndex,integer ...Index)"""
+    def FrameTestRecall(self, slotIndex, passIndex):
+        """boolean = FrameTestRecall(integer slotIndex,integer passIndex)"""
         ...
 
     def JobAbort(self):
