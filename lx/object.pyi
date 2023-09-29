@@ -5918,7 +5918,20 @@ class ImageSegment(object):
 class ImageWrite(object):
     """ Writing to an image requires a different interface. This provides
     methods for assigning color values to pixels or lines. Not all images
-    will be writable. """
+    will be writable. 
+
+    >>> image_service = lx.service.Image()
+    >>> image = image_service.Create(256, 256, lx.symbol.iIMV_GREY, 0)
+    >>> image_write = lx.object.ImageWrite(image)
+    >>> height, width = image_write.Size()
+    >>> line_buffer = lx.object.storage('b', width * image_write.Format())
+    >>> for y in range(256):
+	...     line_buffer.set((y,)*width)
+    ...     image_write.SetLine(y, lx.symbol.iIMV_GREY, line_buffer)
+    ...
+    >>> image_service.Save(image, "C:/Users/username/Desktop/gray_gradient.png", "PNG", 0)
+	
+    """
     def __init__(self, *args, **kwargs):
         ...
 
