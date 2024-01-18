@@ -156,7 +156,7 @@ def testifc():
     ...
 
 
-def throw(code: int, quiet: Optional[bool]):
+def throw(code: int, quiet: Optional[bool] = None):
     """ Raise a result code exception.
 
        lx.throw(code, [quiet])"""
