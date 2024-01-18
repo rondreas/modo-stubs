@@ -2435,60 +2435,109 @@ class Platform(object):
 
 
 class PresetBrowser(object):
-    def GetSpecialSelModePath(self, identifier):
-        """string = GetSpecialSelModePath(string identifier)"""
+    def ScriptQuery(self) -> object.Unknown:
+        """ As with all globals, the first method gets the ILxScriptQueryID interface for
+        the system.
+
+        Unknown object = ScriptQuery()"""
         ...
 
-    def IsViewportVisible(self, identifier, hash):
-        """boolean = IsViewportVisible(string identifier,string hash)"""
+    def SubtypeFromIdentifier(self, identifier: str) -> int:
+        """ The packets in a particular subtype can then be walked with the SelClient...()
+        series of functions defined in sel.qq.  The selection client and index together
+        are used to walk a particular list of packets.  There is also a function to
+        listen for events for a specific subtype.
+
+        Selection should also be done with the select.preset command, and dropped with
+        select.presetDrop.  This ensures that only one subtype is affected.  There is
+        also a special "global" subtype that can be obtained by passing NULL to
+        SubtypeFromIdentifier().  Note that this is not the same as uses the clientless
+        selection functions; the global selection subtype is considered separate from
+        the other subtypes, while the clientless selection functions ignore subtypes
+        and operates on the entire selection.
+
+        As described above, this method returns a selection subtype for a given client
+        identifier, which can be any arbitrary string that the client would like to
+        use to identify its sub-selection. If NULL is passed in, then the "global"
+        subtype is returned.  The optional identifier may be used to further narrow
+        the selection down to a specialized client, which is unique and separate from
+        a NULL identifier.  See the LXtPresetPathPacket section for more information
+        on identifiers.
+
+        integer subtype = SubtypeFromIdentifier(string identifier)"""
         ...
 
-    def RecognizeFile(self, path, flags):
-        """(string serverName,string category) = RecognizeFile(string path,integer flags)"""
+    def UpdateIdentifierState(self, identifier: str, path: str) -> str:
+        """ On the flip side, the client needs to notify the browser when its state changes
+        externally.  This method will update the preset selection if necessary, as well
+        as updating the current path of any preset browser with that identifier so that
+        the current selection is visible there.  The identifier must be non-NULL.
+        Note that this works by executing commands for the normal selection mode.  If
+        in special selection mode, SetSpecialSelModePath() sohuld be used isntead.
+
+        UpdateIdentifierState(string identifier, string path)"""
         ...
 
-    def RecognizeFileForce(self, path, flags):
-        """(string serverName,string category) = RecognizeFileForce(string path,integer flags)"""
-        ...
-
-    def Rescan(self, path):
-        """Rescan(string path)"""
-        ...
-
-    def ScriptQuery(self):
-        """Unknown object = ScriptQuery()"""
-        ...
-
-    def ServerByIndex(self, index):
-        """PresetType object = ServerByIndex(integer index)"""
-        ...
-
-    def ServerCount(self):
+    def ServerCount(self) -> int:
         """integer count = ServerCount()"""
         ...
 
-    def ServerLookup(self, name):
+    def ServerByIndex(self, index: int) -> object.PresetType:
+        """PresetType object = ServerByIndex(integer index)"""
+        ...
+
+    def ServerLookup(self, name: str) -> object.PresetType:
         """PresetType object = ServerLookup(string name)"""
         ...
 
-    def ServerNameByIndex(self, index):
-        """string name = ServerNameByIndex(integer index)"""
+    def ServerNameByIndex(self, index: int) -> str:
+        """ Return the name of a server given an index
+
+        string name = ServerNameByIndex(integer index)"""
         ...
 
-    def ServerUserNameByIndex(self, index):
-        """string name = ServerUserNameByIndex(integer index)"""
+    def ServerUserNameByIndex(self, index: int) -> str:
+        """ Return the name of a server given an index
+
+        string name = ServerUserNameByIndex(integer index)"""
         ...
 
-    def SetSpecialSelModePath(self, identifier, path, asInteractive):
-        """SetSpecialSelModePath(string identifier,string path,integer asInteractive)"""
+    def RecognizeFile(self, path: str, flags: int) -> Tuple[str, str]:
+        """ These methods return the name and username of a server given an index.
+
+        (string serverName,string category) = RecognizeFile(string path,integer flags)"""
         ...
 
-    def SubtypeFromIdentifier(self, identifier):
-        """integer subtype = SubtypeFromIdentifier(string identifier)"""
+    def RecognizeFileForce(self, path: str, flags: int) -> Tuple[str, str]:
+        """ This is identical to RecognizeFile(), but does not use any cached recognized
+        state.
+
+        (string serverName,string category) = RecognizeFileForce(string path,integer flags)"""
         ...
 
-    def UpdateIdentifierState(self, identifier, path):
-        """UpdateIdentifierState(string identifier,string path)"""
+    def Rescan(self, path: str):
+        """ The rescan method is a wrapper for ILxDirCacheService::ScanForChanges(),
+        and updates a single path or the entire cache for any new changes to the
+        files and directories on disk.  If the path provided is NULL, the entire
+        cache is scanned for updates.
+
+        Rescan(string path)"""
+        ...
+
+    def IsViewportVisible(self, identifier: str, hash: str) -> bool:
+        """ 
+        boolean = IsViewportVisible(string identifier,string hash)"""
+        ...
+
+    def GetSpecialSelModePath(self, identifier) -> str:
+        """string = GetSpecialSelModePath(string identifier)"""
+        ...
+
+    def SetSpecialSelModePath(self, identifier: str, path: str, asInteractive: int):
+        """ When setting, if asInteractive is true, the "do" action associated with
+        browser is executed for the path as though the user had double-clicked it.
+
+        SetSpecialSelModePath(string identifier,string path,integer asInteractive)"""
         ...
 
 
