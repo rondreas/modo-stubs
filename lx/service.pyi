@@ -3243,7 +3243,7 @@ class Value(object):
         """
         ...
 
-    def TextHintEncode(self, value: int, hint: lx.object.UIHints) -> str:
+    def TextHintEncode(self, value: int, hint: List[Tuple[int, str]]) -> str:
         """ This encodes a numeric value as a string.  If the 'buf' pointer is null, then
         a rolling buffer will be allocated and returned.  If the hint pointer is null
         then the value is written as a plain signed integer.
@@ -3258,10 +3258,15 @@ class Value(object):
 
         string = TextHintEncode(integer value, hints hint)
 
+        >>> value_service = lx.service.Value()
+        >>> hint = [(0, 'foo'), (1, 'bar'), (2, 'baz')]
+        >>> print(value_service.TextHintEncode(1, hint))
+        'bar'
+
         """
         ...
 
-    def TextHintDecode(self, buf: str, hint: lx.object.UIHints) -> int:
+    def TextHintDecode(self, buf: str, hint: List[Tuple[int, str]]) -> int:
         """ This method decodes a string using the hint array.  If the string is a
         number it will be returned directly after being clamped to min or max limits.
         If nothing is recognized then the function end-of-list will be returned.
@@ -3274,6 +3279,11 @@ class Value(object):
         min/max or similar properties, and is not meant to have a list of choices.
 
         integer value = TextHintDecode(string buf, hints hint)
+
+        >>> value_service = lx.service.Value()
+        >>> hint = [(0, 'foo'), (1, 'bar'), (2, 'baz')]
+        >>> value_service.TextHintDecode('baz', hint)
+        2
 
         """
         ...
