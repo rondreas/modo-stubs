@@ -8495,28 +8495,41 @@ class Modifier(object):
         """Evaluate()"""
         ...
 
-    def Free(self, cache):
-        """Free(pointer cache)"""
+    def Test(self, item: Item, index: int) -> bool:
+        """ Test an instance to see if its still valid for the given key
+        channel. If it returns LXe_FALSE or an error the instance will be removed.
+
+        boolean = Test(object item,integer index)"""
         ...
 
-    def Invalidate(self, item, index):
-        """boolean = Invalidate(object item,integer index)"""
+    def Invalidate(self, item: Item, index):
+        """ Check to see if a change to the given input channel should invalidate the
+        current state of the modifier. LXe_OK should be returned in most cases,
+        but LXe_FALSE can be returned if the given channel has no effect on the
+        modifier.
+
+        boolean = Invalidate(object item,integer index)"""
         ...
 
-    def Required(self, index):
+    def Validate(self, item: Item, index: int, rc: int):
+        """Validate(object item,integer index,integer rc)"""
+        ...
+
+    def RequiredCount(self) -> int:
+        """ Enumerates the required channels for this modifier, getting the key item
+        for an input channel.
+
+        integer = RequiredCount()"""
+        ...
+
+    def Required(self, index: int) -> Tuple[int, Item]:
         """(integer attr,Item object) = Required(integer index)"""
         ...
 
-    def RequiredCount(self):
-        """integer = RequiredCount()"""
-        ...
+    def Free(self, cache: int):
+        """ Free cache data for this modifier.
 
-    def Test(self, item, index):
-        """boolean = Test(object item,integer index)"""
-        ...
-
-    def Validate(self, item, index, rc):
-        """Validate(object item,integer index,integer rc)"""
+        Free(pointer cache)"""
         ...
 
     def set(self, source: object) -> bool:
