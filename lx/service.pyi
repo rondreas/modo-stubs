@@ -877,60 +877,23 @@ class Deformer(object):
 
 
 class DirCache(object):
-    def AddClient(self):
-        """AddClient()"""
+    def ScriptQuery(self) -> object.Unknown:
+        """ As with all services, we start with the ScriptQuery method, although it is
+        not implemented.
+
+        Unknown object = ScriptQuery()"""
         ...
 
-    def ArePathsEqual(self, path1, path2):
-        """ArePathsEqual(string path1,string path2)"""
+    def RootCount(self) -> int:
+        """ Get number of root entries.
+
+        integer count = RootCount()"""
         ...
 
-    def AttributesChanged(self, dirCacheEntry, which, attribute):
-        """AttributesChanged(object dirCacheEntry,integer which,string attribute)"""
-        ...
+    def RootByIndex(self, index: int) -> object.DirCacheEntry:
+        """ Get root entry by index.
 
-    def CachedThumbnailAsyncCancel(self, ident):
-        """CachedThumbnailAsyncCancel(string ident)"""
-        ...
-
-    def CanBeRenamed(self, path):
-        """CanBeRenamed(string path)"""
-        ...
-
-    def IsChildOfPath(self, possibleChild, parentToTestAgainsts, orIsSame):
-        """IsChildOfPath(string possibleChild,string parentToTestAgainsts,integer orIsSame)"""
-        ...
-
-    def Lookup(self, path):
-        """DirCacheEntry object = Lookup(string path)"""
-        ...
-
-    def MakeDirHierarchy(self, path, skipLastPart):
-        """MakeDirHierarchy(string path,integer skipLastPart)"""
-        ...
-
-    def MakeUniqueIn(self, object, filename):
-        """string = MakeUniqueIn(object object,string filename)"""
-        ...
-
-    def ParseName(self, filename, baseName, baseNameLen, path, pathLen):
-        """ParseName(string filename,byte[] baseName,integer baseNameLen,byte[] path,integer pathLen)"""
-        ...
-
-    def PathCompose(self, filename, filenameLen, baseName, path):
-        """PathCompose(byte[] filename,integer filenameLen,string baseName,string path)"""
-        ...
-
-    def RemoveClient(self):
-        """RemoveClient()"""
-        ...
-
-    def RootByIndex(self, index):
-        """DirCacheEntry object = RootByIndex(integer index)"""
-        ...
-
-    def RootCount(self):
-        """integer count = RootCount()"""
+        DirCacheEntry object = RootByIndex(integer index)"""
         ...
 
     def RootLock(self):
@@ -941,20 +904,174 @@ class DirCache(object):
         """RootUnlock()"""
         ...
 
-    def ScanForChanges(self, path):
-        """ScanForChanges(string path)"""
+    def Lookup(self, path: str) -> object.DirCacheEntry:
+        """ Lookup a cache entry by its path anywhere in the hierarchy. The path is expected to
+        be in local platform format.  This is thread-safe.
+
+        DirCacheEntry object = Lookup(string path)"""
         ...
 
-    def ScriptQuery(self):
-        """Unknown object = ScriptQuery()"""
+    def CachedThumbnailAsyncCancel(self, ident: str):
+        """ This aborts any pending async operations given an identifier string.  This is tested
+        against that returned by all of the pending async objects' Ident() methods, and all
+        that match are canceled.
+
+        CachedThumbnailAsyncCancel(string ident)"""
         ...
 
-    def SetPosOnDrop(self, path, dest):
-        """SetPosOnDrop(string path,object dest)"""
+    def SetPosOnDrop(self, path: str, dest: object.Unknown):
+        """ It is not uncommon to create a new file by Drag-and-Drop'ing some content into a 
+        Preset Browser. If the view supports manual ordering or grid mode, it is often desirable
+        to respect that and place the newly-created file in the appropraite location.
+
+        This method handles all of that for you.  You just need to provide an LXtObjectID from
+        the drop destination and the path of the file you created, and this will update the
+        manual order and grid position as appropraite.  Note that the file's path must match
+        that of the directory provided by the destination object, or this will do nothing.
+
+        It is important to note that this is only realy good for updating a single file; calling
+        this multiple times may result in the paths being shuffled around oddly, as you really
+        want to take into account the previosuly positioned file instead of just the information
+        present in the destination object.
+
+        With the introduction of merged base paths, the new SetPosOnDropForClient() should be
+        used instead
+
+        SetPosOnDrop(string path,object dest)"""
         ...
 
-    def ToLocalAlias(self, path):
-        """string = ToLocalAlias(byte[] path)"""
+    def AttributesChanged(self, dirCacheEntry: object.DirCacheEntry, which: int, attribute: str):
+        """ The dir cache needs to be told when a file or directory changes. On app activation
+        it will automatically rescan all directories looking for changes, and update as
+        appropriate. If the files or dirs are added or removed while the app is running,
+        this function should be called by the client that did that modification so that the
+        cache will be refreshed.
+
+        If the path provided points to a directory, that directory and its children will be
+        scanned for changes.  If the path is a file, the directory that contains the file
+        and its children will be scanned.  If the path is NULL, the entire cache is rescanned.
+
+        AttributesChanged(object dirCacheEntry,integer which,string attribute)"""
+        ...
+
+    def ScanForChanges(self, path: str):
+        """ Rescanning involves hitting the disk, testing each file and its sidecar files for
+        changes.  Scanning the entire standard content directory hierarchy in a development
+        build on a spinning disk hard drive takes about four seconds, which isn't too bad
+        for 4000 or so files and dirs.  Targetting a specific directory should be nearly
+        instant from the user's point of view.
+
+        ScanForChanges(string path)"""
+        ...
+
+    def AddClient(self):
+        """ While it operates as a low-priority thread, dir cache background isn't always
+        desirable. A preference determines if the cache should always upgrade in the
+        background or only when a client is actively using it.
+
+        Clients declare that they're using it by calling this method to increment the
+        use count.  This keeps the cache thread running and makes sure that everything
+        is up to date.  If a client attempts to access the cache without increasing
+        the use count, they may have stale cache data or no cache data at all.
+
+        AddClient()"""
+        ...
+
+    def RemoveClient(self):
+        """ When a client no longer needs to access the cache, it should remove itself.
+        This just keeps the cache from doing any further updates, but it will first
+        finish writing any changes to disk as needed.
+
+        RemoveClient()"""
+        ...
+
+    def ParseName(self, filename: str, baseName: bytes, baseNameLen: int, path: bytes, pathLen: int):
+        """ With the introduction of synthetic paths, we need a way to parse those paths.
+        This will automatically handle both file system paths and synthetic paths,
+        with the caveat that the paths must be absolute (ie: a synthetic path starts
+        with "[servername]:") so that it can be properly identified.
+
+        ParseName(string filename,byte[] baseName,integer baseNameLen,byte[] path,integer pathLen)"""
+        ...
+
+    def PathCompose(self, filename: bytes, filenameLen: int, baseName: str, path: str):
+        """ Similarly, this will compose a path, inserting the appropriate separators
+        for synthetic vs. local paths.  The filename buffer will be a combination
+        of the path, a separator, and the basename, although if the basename is
+        absolute it will be the only thing in the filename buffer.
+
+        PathCompose(byte[] filename,integer filenameLen,string baseName,string path)"""
+        ...
+
+    def IsChildOfPath(self, possibleChild: str, parentToTestAgainsts: str, orIsSame: int):
+        """ Test to see if a path is a child of another path, returning LXe_TRUE if it
+        is and LXe_FALSE if it's not.  This works on both real and synthetic paths.
+
+        IsChildOfPath(string possibleChild,string parentToTestAgainsts,integer orIsSame)"""
+        ...
+
+    def ToLocalAlias(self, path: bytes) -> str:
+        """ This retuns the local version of a path.  Synthetic paths are simply returned
+        as the original path, while non-synethic paths are returned as though
+        ILxFileService::ToLocalAlias() was called on it.
+
+        string = ToLocalAlias(byte[] path)"""
+        ...
+
+    def ArePathsEqual(self, path1: str, path2: str):
+        """ This returns if two paths are equal. Synthetic paths are considered to be case
+        insensitive.
+
+        ArePathsEqual(string path1,string path2)"""
+        ...
+
+    def CanBeRenamed(self, path: int):
+        """ This returns true if a path can be renamed with the file.rename and dircache.rename
+        commands.
+
+        CanBeRenamed(string path)"""
+        ...
+
+    def MakeDirHierarchy(self, path: str, skipLastPart: int):
+        """ This ensures that the path provided exists on disk, creating the directories along the
+        path if they don't.  At leaast the first component of the path must exist, and the user
+        must have approriate permissions to modify the path.  If any part of the path can't be
+        created, this will fail.
+
+        If skipLastPart is true, we assume that part is the file component and will not try to
+        create a directory there, but will create them for all components up to that point.
+
+        This works only on local paths, and will fail on synthetics and merged entries.
+
+        MakeDirHierarchy(string path,integer skipLastPart)"""
+        ...
+
+    def MakeUniqueIn(self, object: object.Object, filename: str) -> str:
+        """ This generates a new path that has a guaranteed unique filename relative in the directory
+        represented by the entry provided (more on that below).  The name is a base filename that
+        is appended to the entry's path, and should include an extension, such as "color.lxc".
+        A unique name is generated by inserting "_1", "_2", etc just before the extension until
+        a file cannot be found at that location.
+        The following objects can be passed to this method:
+
+        - ILxDirCacheEntry
+        If this is a directory, it will return a unique filename in that directory.  If it is a
+        file, it will return a unique filename in the parent directory.
+
+        - ILxMergedDirCacheEntry
+        Same as for ILxDirCacheEntry, but the new name will be unique in all of the component
+        entries that make up this merged entry, with the final path being composed from the user
+        path and the name provided.
+
+        - ILxFileSysDest
+        The new name is unique within the local path found in the destination.
+
+        - ILxMergedFileSysDest
+        The new name is unique within the paths of all entries in the merged destination.  The
+        final path will be placed in the ILxFileSysDest path if available, falling back to the
+        path of the first entry if not.
+
+        string = MakeUniqueIn(object object,string filename)"""
         ...
 
 
