@@ -2322,25 +2322,45 @@ class Particle(object):
 
 
 
-class Persistence(object):
-    def AddValue(self, typeName):
-        """AddValue(string typeName)"""
-        ...
-
-    def Configure(self, name, obj):
-        """Configure(string name,object obj)"""
-        ...
-
-    def End(self):
-        """PersistentEntry object = End()"""
-        ...
-
+class Persistence:
     def ScriptQuery(self):
         """Unknown object = ScriptQuery()"""
         ...
 
-    def Start(self, name, type):
-        """Start(string name,integer type)"""
+    def Configure(self, name: str, obj: object.Visitor):
+        """ Clients call this method to define a set of persistent attributes. 
+        The name will define a top-level atom in the config file which should 
+        be unique. 
+
+        The object can be a visitor which, when evalutated, should add entries
+        and values. It should be noted that this function should only be called
+        once for any top-level name during the lifetime of the application.
+
+        Attempting to call it again will return an error.
+
+        Configure(string name,object obj)"""
+        ...
+
+    def Start(self, name: str, type: int):
+        """ During configuration, these calls define the nested hierarchy of
+        entries. Each entry has a name and a type -- atom, hash or list. 
+
+        Start(string name,integer type)"""
+        ...
+
+    def End(self) -> object.PersistentEntry:
+        """ Ending the entry definition returns the persistent entry object
+        which can be used to traverse persistent values. 
+
+        PersistentEntry object = End()"""
+        ...
+
+    def AddValue(self, typeName: str):
+        """ While in an entry definition, values can be added. Currently
+        only one value per entry is allowed. The type name is any of the
+        value types.
+
+        AddValue(string typeName)"""
         ...
 
 
